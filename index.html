@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Weekly Money Planner</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,600;7..72,700&display=swap">
+<style>
+/* Layout: one narrow column, read top to bottom like a paper form; the answer sits in a tinted panel at the top. */
+:root {
+  --bg: #eaf1f2;
+  --paper: #ffffff;
+  --ink: #061215;
+  --muted: #1f3237;
+  --line: #5b7278;
+  --accent: #04434e;
+  --accent-ink: #ffffff;
+  --panel: #cfe8eb;
+  --good: #0c4d24;
+  --warn: #842404;
+  --warn-bg: #fde3d4;
+  --display: "Literata", Georgia, "Times New Roman", serif;
+  --body: "Atkinson Hyperlegible", Verdana, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #000b0d; --paper: #0b1a1e; --ink: #ffffff; --muted: #dbe7ea; --line: #8fa8ae;
+    --accent: #86e6f3; --accent-ink: #00262c; --panel: #08343b; --good: #93f3b6;
+    --warn: #ffc6a8; --warn-bg: #451b09; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #000b0d; --paper: #0b1a1e; --ink: #ffffff; --muted: #dbe7ea; --line: #8fa8ae;
+  --accent: #86e6f3; --accent-ink: #00262c; --panel: #08343b; --good: #93f3b6;
+  --warn: #ffc6a8; --warn-bg: #451b09; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; font-size: 112.5%; }
+html.xl { font-size: 131%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.2rem;
+  line-height: 1.6;
+}
+main {
+  max-width: 38rem;
+  margin: 0 auto;
+  padding-block: 1.5rem 4rem;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 1.75rem;
+}
+h1, h2 { font-family: var(--display); line-height: 1.2; text-wrap: balance; margin: 0; }
+h1 { font-size: 2.1rem; }
+h2 { font-size: 1.5rem; }
+p { margin: 0; }
+.intro { display: grid; gap: .5rem; color: var(--muted); }
+.private { font-size: 1.1rem; color: var(--ink); }
+
+/* The answer */
+.answer {
+  background: var(--panel);
+  border-radius: 14px;
+  padding: 1.5rem 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+.big-label { font-size: 1.1rem; font-weight: 700; }
+.big-number {
+  font-family: var(--display);
+  font-size: clamp(2.6rem, 11vw, 3.6rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+.lines { display: grid; gap: .35rem; margin: 0; }
+.lines div { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+.lines dt { color: var(--muted); }
+.lines dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.lines .total { border-top: 3px solid var(--ink); padding-top: .4rem; }
+.status { font-weight: 700; border-radius: 10px; padding: .75rem 1rem; }
+.status.ok { color: var(--good); background: var(--paper); border: 2px solid var(--good); }
+.status.short { color: var(--warn); background: var(--warn-bg); border: 2px solid var(--warn); }
+
+/* Form sections */
+section.part {
+  background: var(--paper);
+  border: 2px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: grid;
+  gap: 1rem;
+}
+.hint { color: var(--muted); font-size: 1.1rem; }
+label { font-weight: 700; }
+input {
+  font: inherit;
+  font-size: 1.25rem;
+  color: var(--ink);
+  background: var(--bg);
+  border: 3px solid var(--line);
+  border-radius: 10px;
+  padding: .6rem .75rem;
+  width: 100%;
+  min-height: 3.2rem;
+}
+input:focus { outline: 4px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+.money { position: relative; }
+.money span {
+  position: absolute; left: .8rem; top: 50%; transform: translateY(-50%);
+  font-weight: 700; color: var(--muted); pointer-events: none;
+}
+.money input { padding-left: 2rem; font-variant-numeric: tabular-nums; }
+
+.rows { display: grid; gap: .75rem; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 9rem 3.2rem; gap: .5rem; align-items: center; }
+.row-head { display: grid; grid-template-columns: minmax(0, 1fr) 9rem 3.2rem; gap: .5rem; color: var(--muted); font-size: 1.05rem; font-weight: 700; }
+/* Narrow screens: name on its own line, amount and remove button underneath */
+@media (max-width: 34rem) {
+  .row { grid-template-columns: minmax(0, 1fr) 3.2rem; padding-bottom: .75rem; border-bottom: 2px solid var(--line); }
+  .row > input { grid-column: 1 / -1; }
+  .row-head { display: none; }
+}
+.subtotal { display: flex; justify-content: space-between; font-weight: 700; font-variant-numeric: tabular-nums; flex-wrap: wrap; gap: .5rem; }
+
+button {
+  font: inherit;
+  font-weight: 700;
+  border-radius: 10px;
+  min-height: 3.2rem;
+  cursor: pointer;
+}
+button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
+.add {
+  background: var(--accent);
+  color: var(--accent-ink);
+  border: 0;
+  padding: .6rem 1.1rem;
+  justify-self: start;
+}
+.remove {
+  background: transparent;
+  color: var(--ink);
+  border: 3px solid var(--line);
+  font-size: 1.4rem;
+  line-height: 1;
+  padding: 0;
+}
+.remove:hover { color: var(--warn); border-color: var(--warn); }
+.quiet {
+  background: transparent;
+  color: var(--ink);
+  border: 3px solid var(--line);
+  padding: .6rem 1.1rem;
+}
+.reset { display: grid; gap: .75rem; justify-items: start; }
+.confirm { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
+.confirm .yes { background: var(--warn); color: var(--paper); border: 0; padding: .6rem 1.1rem; }
+.saved { color: var(--muted); font-size: 1.05rem; }
+.size { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.size span { font-weight: 700; color: var(--ink); }
+.size button { background: var(--paper); color: var(--ink); border: 3px solid var(--line); padding: .4rem 1rem; }
+.size button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.size .bigger { font-size: 1.25em; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<main>
+  <header class="intro">
+    <h1>Weekly Money Planner</h1>
+    <p>Type in what comes in and what goes out. The planner works out how much to put aside each week so every bill is covered.</p>
+    <p class="private">No name, no account, no sign in. Your figures stay on this device only.</p>
+    <div class="size" role="group" aria-label="Text size">
+      <span>Text size</span>
+      <button type="button" id="sizeLarge" aria-pressed="true">Large</button>
+      <button type="button" id="sizeXL" class="bigger" aria-pressed="false">Extra large</button>
+    </div>
+  </header>
+
+  <section class="answer" aria-live="polite">
+    <div>
+      <p class="big-label">Put aside each week</p>
+      <p class="big-number" id="setAside">€0.00</p>
+    </div>
+    <dl class="lines">
+      <div><dt>Coming in each week</dt><dd id="outIncome">€0.00</dd></div>
+      <div><dt>Weekly bills</dt><dd id="outWeekly">€0.00</dd></div>
+      <div><dt>Monthly bills, as a weekly amount</dt><dd id="outMonthlyAsWeek">€0.00</dd></div>
+      <div class="total"><dt>Left to spend each week</dt><dd id="outLeft">€0.00</dd></div>
+    </dl>
+    <p class="status ok" id="status">Start by typing your weekly pay or pension below.</p>
+  </section>
+
+  <section class="part" aria-labelledby="h-income">
+    <h2 id="h-income">1. Money coming in</h2>
+    <p class="hint">If you get more than one payment (for example a pension and a part time wage), add them together.</p>
+    <label for="income">Weekly pay or pension</label>
+    <div class="money"><span>€</span><input id="income" inputmode="decimal" autocomplete="off" placeholder="0.00"></div>
+  </section>
+
+  <section class="part" aria-labelledby="h-weekly">
+    <h2 id="h-weekly">2. Bills you pay every week</h2>
+    <p class="hint">Things like food shopping, travel or a weekly payment plan.</p>
+    <div class="row-head" aria-hidden="true"><span>What it is</span><span>Amount</span><span></span></div>
+    <div class="rows" id="weeklyRows"></div>
+    <button type="button" class="add" id="addWeekly">+ Add a weekly bill</button>
+    <p class="subtotal"><span>Total each week</span><span id="weeklyTotal">€0.00</span></p>
+  </section>
+
+  <section class="part" aria-labelledby="h-monthly">
+    <h2 id="h-monthly">3. Bills you pay every month</h2>
+    <p class="hint">Things like rent, electricity, phone, TV or insurance. If a bill comes every two months or once a year, work out what it costs per month and put that here.</p>
+    <div class="row-head" aria-hidden="true"><span>What it is</span><span>Amount</span><span></span></div>
+    <div class="rows" id="monthlyRows"></div>
+    <button type="button" class="add" id="addMonthly">+ Add a monthly bill</button>
+    <p class="subtotal"><span>Total each month</span><span id="monthlyTotal">€0.00</span></p>
+    <p class="hint">A month is a little longer than 4 weeks, so the planner spreads monthly bills over the 52 weeks of the year. That way you always have enough when they come out.</p>
+  </section>
+
+  <section class="reset">
+    <p class="saved" id="saved">Your figures save by themselves as you type.</p>
+    <button type="button" class="quiet" id="resetBtn">Clear everything and start again</button>
+    <div class="confirm" id="confirmBox" hidden>
+      <span>This removes all your figures. Are you sure?</span>
+      <button type="button" class="yes" id="confirmYes">Yes, clear it all</button>
+      <button type="button" class="quiet" id="confirmNo">No, keep them</button>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  var KEY = "weekly-money-planner-v1";
+  var WEEKS_PER_MONTH = 52 / 12;
+
+  var defaults = {
+    income: "",
+    weekly: [{ name: "Food shopping", amount: "" }, { name: "Travel or fuel", amount: "" }],
+    monthly: [
+      { name: "Rent or mortgage", amount: "" },
+      { name: "Electricity and heating", amount: "" },
+      { name: "Phone and internet", amount: "" }
+    ]
+  };
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      if (raw) {
+        var d = JSON.parse(raw);
+        if (d && Array.isArray(d.weekly) && Array.isArray(d.monthly)) return d;
+      }
+    } catch (e) {}
+    return JSON.parse(JSON.stringify(defaults));
+  }
+
+  var state = load();
+  var canSave = true;
+
+  function save() {
+    try { localStorage.setItem(KEY, JSON.stringify(state)); }
+    catch (e) {
+      if (canSave) {
+        canSave = false;
+        document.getElementById("saved").textContent =
+          "This browser is not letting the planner save. Your figures will be lost when you close the page.";
+      }
+    }
+  }
+
+  // Accepts "12,50", "12.50", "€12", "1,200.00" and "1.200,00"
+  function num(v) {
+    if (!v) return 0;
+    var s = String(v).replace(/[€\s]/g, "");
+    if (s.indexOf(",") > -1 && s.indexOf(".") > -1) {
+      // Whichever mark comes last is the decimal point
+      s = s.lastIndexOf(",") > s.lastIndexOf(".")
+        ? s.replace(/\./g, "").replace(",", ".")
+        : s.replace(/,/g, "");
+    } else {
+      s = s.replace(",", ".");
+    }
+    var n = parseFloat(s);
+    return isFinite(n) && n > 0 ? n : 0;
+  }
+
+  var fmt = new Intl.NumberFormat("en-IE", { style: "currency", currency: "EUR" });
+  function money(n) { return fmt.format(n); }
+
+  function sum(list) {
+    return list.reduce(function (t, r) { return t + num(r.amount); }, 0);
+  }
+
+  function renderRows(kind) {
+    var box = document.getElementById(kind + "Rows");
+    box.innerHTML = "";
+    state[kind].forEach(function (row, i) {
+      var id = kind + "-" + i;
+      var el = document.createElement("div");
+      el.className = "row";
+      el.innerHTML =
+        '<label class="sr" for="' + id + '-name">What it is</label>' +
+        '<input id="' + id + '-name" autocomplete="off" placeholder="What it is">' +
+        '<label class="sr" for="' + id + '-amt">Amount</label>' +
+        '<div class="money"><span>€</span><input id="' + id + '-amt" inputmode="decimal" autocomplete="off" placeholder="0.00"></div>' +
+        '<button type="button" class="remove" aria-label="Remove this bill">×</button>';
+      var nameIn = el.querySelector('[id$="-name"]');
+      var amtIn = el.querySelector('[id$="-amt"]');
+      nameIn.value = row.name;
+      amtIn.value = row.amount;
+      nameIn.addEventListener("input", function () { row.name = nameIn.value; save(); });
+      amtIn.addEventListener("input", function () { row.amount = amtIn.value; save(); update(); });
+      el.querySelector(".remove").addEventListener("click", function () {
+        state[kind].splice(i, 1);
+        save(); renderRows(kind); update();
+      });
+      box.appendChild(el);
+    });
+  }
+
+  function update() {
+    var income = num(state.income);
+    var weekly = sum(state.weekly);
+    var monthly = sum(state.monthly);
+    var monthlyAsWeek = monthly / WEEKS_PER_MONTH;
+    var setAside = weekly + monthlyAsWeek;
+    var left = income - setAside;
+
+    document.getElementById("setAside").textContent = money(setAside);
+    document.getElementById("outIncome").textContent = money(income);
+    document.getElementById("outWeekly").textContent = money(weekly);
+    document.getElementById("outMonthlyAsWeek").textContent = money(monthlyAsWeek);
+    document.getElementById("outLeft").textContent = money(left);
+    document.getElementById("weeklyTotal").textContent = money(weekly);
+    document.getElementById("monthlyTotal").textContent = money(monthly);
+
+    var status = document.getElementById("status");
+    if (!income) {
+      status.className = "status ok";
+      status.textContent = "Start by typing your weekly pay or pension below.";
+    } else if (left < 0) {
+      status.className = "status short";
+      status.textContent = "Your bills come to " + money(-left) +
+        " more than you get each week. Look at which bills could be lowered or stopped.";
+    } else {
+      status.className = "status ok";
+      status.textContent = "Your bills are covered. You have " + money(left) +
+        " a week left for everything else.";
+    }
+  }
+
+  var incomeIn = document.getElementById("income");
+  incomeIn.value = state.income;
+  incomeIn.addEventListener("input", function () { state.income = incomeIn.value; save(); update(); });
+
+  function addRow(kind) {
+    state[kind].push({ name: "", amount: "" });
+    save(); renderRows(kind); update();
+    var inputs = document.querySelectorAll("#" + kind + "Rows .row");
+    inputs[inputs.length - 1].querySelector("input").focus();
+  }
+  document.getElementById("addWeekly").addEventListener("click", function () { addRow("weekly"); });
+  document.getElementById("addMonthly").addEventListener("click", function () { addRow("monthly"); });
+
+  var resetBtn = document.getElementById("resetBtn");
+  var confirmBox = document.getElementById("confirmBox");
+  resetBtn.addEventListener("click", function () { confirmBox.hidden = false; resetBtn.hidden = true; });
+  document.getElementById("confirmNo").addEventListener("click", function () { confirmBox.hidden = true; resetBtn.hidden = false; });
+  document.getElementById("confirmYes").addEventListener("click", function () {
+    state = JSON.parse(JSON.stringify(defaults));
+    save();
+    incomeIn.value = "";
+    renderRows("weekly"); renderRows("monthly"); update();
+    confirmBox.hidden = true; resetBtn.hidden = false;
+  });
+
+  var SIZE_KEY = "weekly-money-planner-size";
+  function setSize(xl) {
+    document.documentElement.classList.toggle("xl", xl);
+    document.getElementById("sizeLarge").setAttribute("aria-pressed", String(!xl));
+    document.getElementById("sizeXL").setAttribute("aria-pressed", String(xl));
+    try { localStorage.setItem(SIZE_KEY, xl ? "xl" : "large"); } catch (e) {}
+  }
+  document.getElementById("sizeLarge").addEventListener("click", function () { setSize(false); });
+  document.getElementById("sizeXL").addEventListener("click", function () { setSize(true); });
+  try { if (localStorage.getItem(SIZE_KEY) === "xl") setSize(true); } catch (e) {}
+
+  renderRows("weekly");
+  renderRows("monthly");
+  update();
+})();
+</script>
+</body>
+</html>
