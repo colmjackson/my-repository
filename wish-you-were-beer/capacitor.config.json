@@ -1,0 +1,9 @@
+{
+  "appId": "com.example.wishyouwerebeer",
+  "appName": "Wish You Were Beer",
+  "webDir": "www",
+  "ios": {
+    "backgroundColor": "#14110d",
+    "contentInset": "always"
+  }
+}

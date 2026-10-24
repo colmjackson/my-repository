@@ -13,6 +13,9 @@ Prepared overnight for your review. Nothing here is submitted or published anywh
 | `samples/` | The actual exported postcard in each of the five looks |
 | `assets/` | The illustrated pint used as the demo photo |
 | `tools/` | Scripts that regenerate the screenshots |
+| `font-options.png` | Inter compared with two alternatives on the same card |
+
+Outside this folder: `BUILD_IOS.md` (how to build and upload the app), `privacy.html` and `support.html` (the pages Apple asks for), `ios/` (the generated iPhone project) and `../.github/workflows/pages.yml` (publishes the website).
 
 I also ran four of your real drink photos through every look to test the app. Those stay out of the repository on purpose, because they carry other companies' branding and one shows a footballer and tournament logos. What the test showed is in the notes in `WORKFLOW.md`.
 
@@ -27,9 +30,10 @@ Free. No video. No map link and no caption: the picture carries everything. One 
 1. **Story size.** A 9:16 Story crops about a quarter off the sides of a normal phone photo. Keep the crop, or keep the whole photo on a blurred backdrop? I recommend keeping the whole photo.
 2. **Name.** The trademark search for "Wish You Were Beer" is still to do, and I could not do it from here.
 3. **Bundle ID.** Which domain do you own?
-4. **Mac.** You have one working, so the TestFlight stage is possible. It needs Xcode and a developer account.
+4. **Mac.** Working, so the TestFlight stage is possible. The project is prepared; follow `../BUILD_IOS.md`.
 5. **Taglines.** Pick from the list in `APP_STORE.md`.
 6. **Price map.** Still unbuilt. See `PRICE_LOG.md`.
+7. **Nearby places picker.** A list of pubs and restaurants close to you, tapped to fill in the venue. Possible in the iPhone app using Apple's own place search, which is free. It needs a location permission and a change to the privacy policy. I suggest adding it after the first TestFlight round, not before.
 
 ## Regenerating the screenshots
 

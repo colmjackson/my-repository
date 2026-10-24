@@ -1,0 +1,41 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The budgeting page stays at the site root. Only the files the web app needs
+      # go into its folder, so launch notes, screenshots and the iOS project stay private to the repo.
+      - name: Stage the site
+        run: |
+          mkdir -p _site/wish-you-were-beer
+          cp index.html _site/index.html
+          cd wish-you-were-beer
+          cp index.html manifest.json sw.js privacy.html support.html ../_site/wish-you-were-beer/
+          cp -r icons fonts ../_site/wish-you-were-beer/
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

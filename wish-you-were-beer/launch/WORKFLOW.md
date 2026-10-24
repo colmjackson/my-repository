@@ -54,7 +54,7 @@ The app is already installable from Safari ("Add to Home Screen"), has an icon a
 What to learn here: whether your friends actually post the cards, which looks they pick, and whether anyone fills in the price.
 
 **Stage 1: TestFlight build. Cost: the developer programme fee. Time: a weekend or two.**
-Wrap the page with Capacitor, which puts it inside a native iPhone app. Use the native camera and native share plugins so the app does things a website cannot. That matters for review, because a plain website in a frame risks rejection for minimum functionality. You need a Mac with Xcode, or a cloud build service. VERIFY which you have.
+The page is wrapped with Capacitor, which puts it inside a native iPhone app. The project is generated and configured in `ios/`, and `BUILD_IOS.md` has the steps for your Mac. The app uses the native share sheet and file handling, but the viewfinder is still the browser camera inside the app. That is a risk for review, because a plain website in a frame can be rejected for minimum functionality. If the first run or Apple pushes back, the fix is a native camera plugin.
 
 **Stage 2: App Store submission. Time: a few days of waiting on review.**
 Checklist: icon (1024 pixel version is in `icons/icon-1024.png`), screenshots (real ones), listing text (`APP_STORE.md`), privacy policy URL (`PRIVACY.md`), age rating answers, review notes, support URL and email.

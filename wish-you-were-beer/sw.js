@@ -1,5 +1,5 @@
-const CACHE = 'wywb-v2';
-const SHELL = ['./', './index.html', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png',
+const CACHE = 'wywb-v3';
+const SHELL = ['./', './index.html', './manifest.json', './privacy.html', './support.html', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png',
   './fonts/inter-latin-400.woff2', './fonts/inter-latin-600.woff2', './fonts/inter-latin-ext-400.woff2', './fonts/inter-latin-ext-600.woff2'];
 
 self.addEventListener('install', e => {

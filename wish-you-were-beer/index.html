@@ -122,6 +122,7 @@
   .note { font-size: .8rem; color: var(--muted); margin-top: 14px; }
   details.panel summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
   details.panel[open] summary { margin-bottom: 12px; }
+  .note a { color: var(--amber); }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -179,7 +180,7 @@
     </div>
   </details>
 
-  <p class="note">Everything is drawn into the picture, so there is nothing to type or paste.</p>
+  <p class="note">Everything is drawn into the picture, so there is nothing to type or paste. <a href="privacy.html">Privacy</a> · <a href="support.html">Support</a></p>
 </main>
 
 <script>
@@ -469,9 +470,30 @@ $('retake').onclick = () => { setMode(false); startCamera(); };
 
 $('save').onclick = async () => { download(await fileNow()); say('Saved.'); };
 
+// Inside the iPhone app the web share sheet cannot send files, so the native plugins do it.
+const native = window.Capacitor?.isNativePlatform?.() ? window.Capacitor : null;
+
+async function shareNative(file) {
+  const Filesystem = native.registerPlugin('Filesystem');
+  const Share = native.registerPlugin('Share');
+  const data = await new Promise((res, rej) => {
+    const r = new FileReader();
+    r.onload = () => res(String(r.result).split(',')[1]);
+    r.onerror = rej;
+    r.readAsDataURL(file);
+  });
+  const { uri } = await Filesystem.writeFile({ path: file.name, data, directory: 'CACHE' });
+  await Share.share({ files: [uri] });
+}
+
+if (native) $('save').hidden = true; // the share sheet already offers Save Image
+
 $('share').onclick = async () => {
   const file = await fileNow();
-  if (navigator.canShare?.({ files: [file] })) {
+  if (native) {
+    try { await shareNative(file); }
+    catch (e) { if (!/cancel/i.test(String(e?.message || e))) say('Sharing failed. Try again.'); }
+  } else if (navigator.canShare?.({ files: [file] })) {
     try {
       await navigator.share({ files: [file] });
     } catch (e) {
