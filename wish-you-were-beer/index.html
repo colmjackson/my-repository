@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#14110d">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Wish Beer">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-180.png">
+<link rel="icon" href="icons/icon-192.png">
 <title>Wish You Were Beer</title>
 <style>
   :root {
@@ -385,12 +392,18 @@ function stopCamera() {
   state.stream = null;
 }
 
+// The grid is a framing aid, so it only shows while the camera is live.
+function paintGrid() {
+  $('grid').hidden = !$('gridOn').checked || !preview.hidden;
+}
+
 function setMode(done) {
   video.hidden = done;
   preview.hidden = !done;
   $('shootRow').hidden = done;
   $('doneRow').hidden = !done;
   $('looks').hidden = !done;
+  paintGrid();
   if (!done) { state.src = null; state.file = null; say(''); }
 }
 
@@ -470,7 +483,7 @@ $('share').onclick = async () => {
 };
 
 $('priceOn').onchange = () => { $('priceRow').hidden = !$('priceOn').checked; render(); if (!$('priceRow').hidden) $('price').focus(); };
-$('gridOn').onchange = () => { $('grid').hidden = !$('gridOn').checked; };
+$('gridOn').onchange = paintGrid;
 document.querySelectorAll('input[name=fmt]').forEach(r => r.onchange = applyFormat);
 
 ['venue', 'tag', 'price'].forEach(id => {
@@ -510,6 +523,8 @@ $('cur').value = store.get('wywb.cur') || '€';
 
 applyFormat();
 startCamera();
+
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>
 </body>
 </html>
