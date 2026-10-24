@@ -1,9 +1,11 @@
 {
-  "appId": "com.example.wishyouwerebeer",
+  "appId": "com.colmjackson.WishYouWereBeer",
   "appName": "Wish You Were Beer",
   "webDir": "www",
   "ios": {
-    "backgroundColor": "#14110d",
-    "contentInset": "always"
+    "backgroundColor": "#050f18",
+    "contentInset": "always",
+    "allowsLinkPreview": false,
+    "webContentsDebuggingEnabled": false
   }
 }

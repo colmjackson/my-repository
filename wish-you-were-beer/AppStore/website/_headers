@@ -1,0 +1,12 @@
+# Cloudflare Pages response headers for Wish You Were Beer. Copy to the root of Website and Website-upload.
+/wishyouwerebeer/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  X-Frame-Options: DENY
+
+/wishyouwerebeer/app/*
+  Permissions-Policy: camera=(self), microphone=(), geolocation=(), payment=()
+  Content-Security-Policy: frame-ancestors 'none'
+
+/wishyouwerebeer/app/sw.js
+  Cache-Control: no-cache

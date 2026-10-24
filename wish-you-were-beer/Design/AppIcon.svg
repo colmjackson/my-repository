@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#245077"/><stop offset="1" stop-color="#0f2b43"/></linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".12" r=".7"><stop offset="0" stop-color="#ffffff" stop-opacity=".22"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+    <linearGradient id="beer" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd83a"/><stop offset="1" stop-color="#ffb000"/></linearGradient>
+    <linearGradient id="head" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#fff0c4"/></linearGradient>
+    <clipPath id="g"><path d="M300 250 H724 L668 790 Q664 826 628 826 H396 Q360 826 356 790 Z"/></clipPath>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="22" flood-color="#000" flood-opacity=".35"/></filter>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect width="1024" height="1024" fill="url(#glow)"/>
+  <g filter="url(#sh)">
+    <g clip-path="url(#g)">
+      <rect x="280" y="250" width="464" height="600" fill="url(#beer)"/>
+      <rect x="280" y="250" width="464" height="150" fill="url(#head)"/>
+      <path d="M280 400 Q340 372 400 400 T520 400 T640 400 T744 400 V430 H280 Z" fill="#fff0c4" opacity=".0"/>
+      <rect x="400" y="440" width="46" height="330" rx="23" fill="#ffffff" opacity=".35"/>
+    </g>
+    <circle cx="372" cy="262" r="64" fill="url(#head)"/>
+    <circle cx="512" cy="232" r="84" fill="url(#head)"/>
+    <circle cx="652" cy="262" r="64" fill="url(#head)"/>
+  </g>
+</svg>
