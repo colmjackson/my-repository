@@ -91,7 +91,7 @@ Suggested text for the review notes field:
 1. **Alcohol content.** Guideline text covers apps that encourage excessive consumption. VERIFY the current wording under the safety guidelines. The copy above keeps to documenting a drink, not drinking more of it.
 2. **Thin web wrappers.** An app that is only a website in a frame risks rejection for minimum functionality. See `WORKFLOW.md` for how I would add native camera and share features to avoid that.
 3. **Name and trademark.** "Wish You Were Here" is the title of an ITV programme and a well known album. A pun is usually tolerated for a small free app, and it is a bigger risk if you charge for it. Search the UK, Irish and EU trademark registers for "Wish You Were Beer" before you commit. I could not run that search here.
-4. **Screenshots.** Apple wants screenshots that show the real app in use. The ones in `framed/` use an illustrated pint as a stand in. Replace them with real photos before you submit.
+4. **Screenshots.** Apple wants screenshots that show the real app in use. The ones in `framed/` use an illustrated pint as a stand in. Replace them with real photos before you submit, and choose photos with no other company's branding and no identifiable people. Photos like the Guinness glass or the Super Bock mug put someone else's trademark in your store images, and a footballer on a TV screen brings in a person's likeness and competition logos. A plain glass on a table, or your own drink with the labels turned away, is safer.
 5. **Using a real pub name.** The screenshots use an invented pub, "The Gilded Hop, Cork". Keep it that way in store images.
 
 ## Pricing

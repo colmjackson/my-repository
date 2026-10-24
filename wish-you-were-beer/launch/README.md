@@ -14,6 +14,8 @@ Prepared overnight for your review. Nothing here is submitted or published anywh
 | `assets/` | The illustrated pint used as the demo photo |
 | `tools/` | Scripts that regenerate the screenshots |
 
+I also ran four of your real drink photos through every look to test the app. Those stay out of the repository on purpose, because they carry other companies' branding and one shows a footballer and tournament logos. What the test showed is in the notes in `WORKFLOW.md`.
+
 The pint in every image is an illustration standing in for a real photo, and the pub, "The Gilded Hop, Cork", is invented. Replace them with real photos before you submit anything to Apple.
 
 ## Decisions for the morning

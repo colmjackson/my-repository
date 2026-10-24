@@ -33,6 +33,8 @@ The pub name, the line after it, the currency and the look are remembered betwee
 | Postcard | The finished image with watermark, look chips, Retake, Copy caption, Save, Share |
 | Details | Where, text after the location, price switch, grid switch, size |
 
+The default size is portrait (4:5), because that is the shape phone photos of a drink usually arrive in, and square would crop them. Currency can be €, £ or $. Dark photos are lifted automatically before the look is applied.
+
 There are no accounts, no feed, no settings screen and no onboarding.
 
 ## Share behaviour

@@ -8,7 +8,7 @@ When someone shares a postcard with a price on it, the app could also send one a
 
 ## A tension to settle first
 
-You want the app to highlight and promote places, and the price stamp is partly a joke about how expensive pints are. A public map of prices turns that joke into a ranking of the dearest pubs, which is the opposite of promotion for the venue. If promotion is the aim, I would drop the price log and keep the price as something a person chooses to put on their own card.
+You have said you want the app to promote two things: the places and the prices. I accept that prices are core, and the price already travels with every card people share. The risk is narrower than I first put it. A public map that sorts pubs by how dear they are turns the joke into a ranking of the most expensive places, which works against the venue. A map that simply shows what a pint typically costs in each place, with no ranking and no "dearest" list, is a service. Keep it to that, and keep the minimum of three reports.
 
 ## Rules I would keep
 

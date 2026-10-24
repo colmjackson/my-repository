@@ -165,7 +165,7 @@
     <label class="check"><input type="checkbox" id="mapsOn" checked> Add a Google Maps link to the caption</label>
     <label class="check"><input type="checkbox" id="priceOn"> Add the price</label>
     <div class="price-row" id="priceRow" hidden>
-      <select id="cur" aria-label="Currency"><option>€</option><option>£</option></select>
+      <select id="cur" aria-label="Currency"><option>€</option><option>£</option><option>$</option></select>
       <input type="text" id="price" inputmode="decimal" placeholder="7.20" aria-label="Price of the drink" autocomplete="off">
     </div>
   </div>
@@ -173,8 +173,8 @@
   <div class="panel">
     <label class="check"><input type="checkbox" id="gridOn" checked> Golden ratio grid</label>
     <div class="seg" role="radiogroup" aria-label="Image size">
-      <label><input type="radio" name="fmt" value="square" checked><span>Square</span></label>
-      <label><input type="radio" name="fmt" value="portrait"><span>Portrait</span></label>
+      <label><input type="radio" name="fmt" value="square"><span>Square</span></label>
+      <label><input type="radio" name="fmt" value="portrait" checked><span>Portrait</span></label>
       <label><input type="radio" name="fmt" value="story"><span>Story</span></label>
     </div>
   </div>
@@ -255,10 +255,16 @@ function applyLook(ctx, w, h, look) {
   const img = ctx.getImageData(0, 0, w, h), d = img.data;
   const cx = w / 2, cy = h / 2, maxd = Math.hypot(cx, cy);
   const px = [0, 0, 0];
+
+  // Pub photos run dark. Lift dim ones towards a mid exposure before the look is applied.
+  let sum = 0, n = 0;
+  for (let i = 0; i < d.length; i += 64) { sum += 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2]; n++; }
+  const gain = Math.min(1.6, Math.max(1, 0.4 / Math.max(sum / n / 255, 0.01)));
+  const exp = look.exp * gain;
   for (let y = 0; y < h; y++) {
     for (let x = 0; x < w; x++) {
       const i = (y * w + x) * 4;
-      px[0] = d[i] / 255 * look.exp; px[1] = d[i + 1] / 255 * look.exp; px[2] = d[i + 2] / 255 * look.exp;
+      px[0] = d[i] / 255 * exp; px[1] = d[i + 1] / 255 * exp; px[2] = d[i + 2] / 255 * exp;
       const l = 0.2126 * px[0] + 0.7152 * px[1] + 0.0722 * px[2];
       const v = 1 - look.vig * Math.pow(Math.hypot(x - cx, y - cy) / maxd, 2.2);
       const n = look.grain ? (Math.random() - 0.5) * look.grain : 0;

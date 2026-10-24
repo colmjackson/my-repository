@@ -30,6 +30,7 @@ const root = process.argv[2];
   await p.evaluate(() => document.activeElement.blur());
   await p.screenshot({ path: out('1-viewfinder') });
 
+  await p.check('input[value=square]');
   await p.click('#shutter');
   await p.waitForTimeout(600);
   await p.click('#looks button[data-look=lager]').catch(() => {});
