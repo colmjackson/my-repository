@@ -14,6 +14,7 @@
     --muted: #b9ad9a;
     --amber: #f2a93b;
     --amber-ink: #1c1304;
+    --cream: #efe6d6;
   }
   * { box-sizing: border-box; }
   body {
@@ -23,8 +24,19 @@
     font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   main { max-width: 480px; margin: 0 auto; padding: 16px; }
-  h1 { font-size: 1.25rem; margin: 0 0 12px; letter-spacing: .01em; }
+  h1, .sub, .looks button {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    font-style: italic;
+  }
+  h1 { font-size: 1.7rem; font-weight: 400; margin: 0; color: var(--cream); line-height: 1.15; }
   h1 span { color: var(--amber); }
+  .sub { margin: 2px 0 14px; color: var(--muted); }
+  .looks { display: flex; gap: 6px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px; }
+  .looks button {
+    flex: 1 0 auto; font-weight: 400; font-size: 1rem; padding: 8px 14px; border-radius: 999px;
+    background: transparent; color: var(--muted);
+  }
+  .looks button[aria-checked=true] { background: var(--cream); color: #1b1710; border-color: var(--cream); }
 
   .stage {
     --ar: 1 / 1;
@@ -103,6 +115,7 @@
 <body>
 <main>
   <h1>Wish you were <span>beer</span></h1>
+  <p class="sub">Postcards from the pub</p>
 
   <div class="stage" id="stage">
     <video id="video" playsinline muted></video>
@@ -115,6 +128,8 @@
     </div>
     <div class="stage-msg" id="stageMsg" hidden></div>
   </div>
+
+  <div class="looks" id="looks" role="radiogroup" aria-label="Look" hidden></div>
 
   <div class="row" id="shootRow">
     <label class="btn">Choose photo<input type="file" id="file" accept="image/*"></label>
@@ -151,7 +166,7 @@
     </div>
   </div>
 
-  <p class="note">Put the glass on one of the four amber dots. Location, time and price are drawn into the image, and nothing leaves your phone until you share. Instagram ignores captions, so Share copies yours first and you paste it in.</p>
+  <p class="note">Five looks, tap the active one again for none. Put the glass on one of the four amber dots. Location, time and price are drawn into the image, and nothing leaves your phone until you share. Instagram ignores captions, so Share copies yours first and you paste it in.</p>
 </main>
 
 <script>
@@ -164,7 +179,16 @@ const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
 
 const $ = id => document.getElementById(id);
 const stage = $('stage'), video = $('video'), preview = $('preview');
-const state = { src: null, stream: null, takenAt: null, file: null, timer: null };
+const state = { src: null, srcId: 0, base: null, look: 'lager', stream: null, takenAt: null, file: null, timer: null };
+
+// exp/sat/con are multipliers; shadow/high tint the dark and bright ends; fade lifts the blacks.
+const LOOKS = {
+  stout:  { name: 'Stout',       exp: 0.95, sat: 0.85, con: 1.25, shadow: [0.02, 0.01, 0],     high: [0.03, 0.01, -0.02],  fade: 0.02, vig: 0.45, grain: 0.03 },
+  lager:  { name: 'Lager',       exp: 1.08, sat: 1.2,  con: 1.08, shadow: [0, 0, -0.02],       high: [0.05, 0.03, -0.03],  fade: 0,    vig: 0.15, grain: 0 },
+  pale:   { name: 'Pale',        exp: 1.03, sat: 0.9,  con: 0.9,  shadow: [-0.01, 0.02, 0.02], high: [0.01, 0.02, -0.01],  fade: 0.06, vig: 0.2,  grain: 0.02 },
+  last:   { name: 'Last Orders', exp: 1,    sat: 0,    con: 1.35, shadow: [0, 0, 0],           high: [0, 0, 0],            fade: 0.03, vig: 0.5,  grain: 0.06 },
+  snug:   { name: 'Snug',        exp: 1,    sat: 1.05, con: 0.95, shadow: [0.03, 0, -0.03],    high: [0.07, 0.02, -0.06],  fade: 0.03, vig: 0.5,  grain: 0.02 },
+};
 
 const store = {
   get(k) { try { return localStorage.getItem(k); } catch { return null; } },
@@ -214,17 +238,54 @@ function fitLine(ctx, maxW, size, min) {
   return v.trimEnd() + '…' + suffix;
 }
 
+function applyLook(ctx, w, h, look) {
+  const img = ctx.getImageData(0, 0, w, h), d = img.data;
+  const cx = w / 2, cy = h / 2, maxd = Math.hypot(cx, cy);
+  const px = [0, 0, 0];
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      px[0] = d[i] / 255 * look.exp; px[1] = d[i + 1] / 255 * look.exp; px[2] = d[i + 2] / 255 * look.exp;
+      const l = 0.2126 * px[0] + 0.7152 * px[1] + 0.0722 * px[2];
+      const v = 1 - look.vig * Math.pow(Math.hypot(x - cx, y - cy) / maxd, 2.2);
+      const n = look.grain ? (Math.random() - 0.5) * look.grain : 0;
+      for (let c = 0; c < 3; c++) {
+        let u = l + (px[c] - l) * look.sat;
+        u = (u - 0.5) * look.con + 0.5;
+        u += look.shadow[c] * (1 - l) + look.high[c] * l;
+        u = look.fade + u * (1 - look.fade);
+        u = u * v + n;
+        d[i + c] = u < 0 ? 0 : u > 1 ? 255 : u * 255;
+      }
+    }
+  }
+  ctx.putImageData(img, 0, 0);
+}
+
+// The cropped, graded photo is cached so typing in the text fields doesn't redo the pixel work.
+function baseLayer(f) {
+  const key = [f.w, f.h, state.look, state.srcId].join('|');
+  if (state.base?.key === key) return state.base.canvas;
+  const c = document.createElement('canvas');
+  c.width = f.w;
+  c.height = f.h;
+  const ctx = c.getContext('2d');
+  const sw = state.src.width, sh = state.src.height;
+  const scale = Math.max(f.w / sw, f.h / sh);
+  const dw = sw * scale, dh = sh * scale;
+  ctx.drawImage(state.src, (f.w - dw) / 2, (f.h - dh) / 2, dw, dh);
+  if (LOOKS[state.look]) applyLook(ctx, f.w, f.h, LOOKS[state.look]);
+  state.base = { key, canvas: c };
+  return c;
+}
+
 function render() {
   if (!state.src) return;
   const f = currentFormat();
   preview.width = f.w;
   preview.height = f.h;
   const ctx = preview.getContext('2d');
-
-  const sw = state.src.width, sh = state.src.height;
-  const scale = Math.max(f.w / sw, f.h / sh);
-  const dw = sw * scale, dh = sh * scale;
-  ctx.drawImage(state.src, (f.w - dw) / 2, (f.h - dh) / 2, dw, dh);
+  ctx.drawImage(baseLayer(f), 0, 0);
 
   const line = mainLine();
   const price = priceText();
@@ -329,6 +390,7 @@ function setMode(done) {
   preview.hidden = !done;
   $('shootRow').hidden = done;
   $('doneRow').hidden = !done;
+  $('looks').hidden = !done;
   if (!done) { state.src = null; state.file = null; say(''); }
 }
 
@@ -339,6 +401,7 @@ function take() {
   c.height = video.videoHeight;
   c.getContext('2d').drawImage(video, 0, 0);
   state.src = c;
+  state.srcId++;
   state.takenAt = new Date();
   stopCamera();
   setMode(true);
@@ -358,6 +421,7 @@ async function loadFile(file) {
     }).catch(() => null);
   }
   if (!state.src) { say('Could not read that photo.'); return; }
+  state.srcId++;
   state.takenAt = new Date(file.lastModified || Date.now());
   stopCamera();
   setMode(true);
@@ -416,6 +480,29 @@ document.querySelectorAll('input[name=fmt]').forEach(r => r.onchange = applyForm
   });
 });
 $('cur').onchange = () => { store.set('wywb.cur', $('cur').value); render(); };
+
+function paintLooks() {
+  document.querySelectorAll('#looks button').forEach(b =>
+    b.setAttribute('aria-checked', String(b.dataset.look === state.look)));
+}
+
+Object.entries(LOOKS).forEach(([key, look]) => {
+  const b = document.createElement('button');
+  b.textContent = look.name;
+  b.dataset.look = key;
+  b.setAttribute('role', 'radio');
+  b.onclick = () => {
+    state.look = state.look === key ? '' : key;
+    store.set('wywb.look', state.look);
+    paintLooks();
+    render();
+  };
+  $('looks').appendChild(b);
+});
+
+const savedLook = store.get('wywb.look');
+if (savedLook !== null && (savedLook === '' || LOOKS[savedLook])) state.look = savedLook;
+paintLooks();
 
 $('venue').value = store.get('wywb.venue') || '';
 $('tag').value = store.get('wywb.tag') ?? 'Wish you were beer';
