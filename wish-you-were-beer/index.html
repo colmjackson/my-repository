@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Wish You Were Beer</title>
+<style>
+  :root {
+    --bg: #14110d;
+    --card: #1f1a14;
+    --line: #3a3226;
+    --ink: #f6efe3;
+    --muted: #b9ad9a;
+    --amber: #f2a93b;
+    --amber-ink: #1c1304;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 480px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.25rem; margin: 0 0 12px; letter-spacing: .01em; }
+  h1 span { color: var(--amber); }
+
+  .stage {
+    --ar: 1 / 1;
+    --arn: 1;
+    position: relative;
+    width: min(100%, calc(68vh * var(--arn)));
+    aspect-ratio: var(--ar);
+    margin: 0 auto;
+    background: #000;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+  .stage video, .stage canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .grid { position: absolute; inset: 0; pointer-events: none; }
+  .grid i { position: absolute; background: rgba(255,255,255,.45); }
+  .grid .v { top: 0; bottom: 0; width: 1px; }
+  .grid .h { left: 0; right: 0; height: 1px; }
+  .grid b {
+    position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px;
+    border: 2px solid var(--amber); border-radius: 50%;
+  }
+  .stage-msg {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    padding: 24px; text-align: center; color: var(--muted);
+  }
+
+  .row { display: flex; gap: 8px; align-items: center; justify-content: center; margin-top: 12px; }
+  button, .btn {
+    font: inherit; font-weight: 600; color: var(--ink);
+    background: var(--card); border: 1px solid var(--line); border-radius: 10px;
+    padding: 10px 14px; cursor: pointer; text-align: center;
+  }
+  button.primary { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); }
+  button:focus-visible, .btn:focus-within, input:focus-visible, select:focus-visible, .seg input:focus-visible + span {
+    outline: 3px solid var(--amber); outline-offset: 2px;
+  }
+  .shutter {
+    width: 72px; height: 72px; border-radius: 50%; padding: 0;
+    background: var(--ink); border: 5px solid var(--bg); box-shadow: 0 0 0 3px var(--ink);
+  }
+  .btn input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .btn { position: relative; }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 14px; }
+  label.field { display: block; font-size: .85rem; color: var(--muted); margin-bottom: 10px; }
+  label.field:last-child { margin-bottom: 0; }
+  input[type=text], input[type=search], select {
+    display: block; width: 100%; margin-top: 4px; padding: 10px 12px;
+    font: inherit; color: var(--ink); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 10px;
+  }
+  .price-row { display: flex; gap: 8px; }
+  .price-row select { width: 76px; }
+  .price-row input { flex: 1; }
+  .check { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--ink); font-size: .95rem; }
+  .check input { width: 20px; height: 20px; accent-color: var(--amber); }
+
+  .seg { display: flex; gap: 6px; }
+  .seg label { flex: 1; }
+  .seg input { position: absolute; opacity: 0; }
+  .seg span {
+    display: block; text-align: center; padding: 9px 4px; border-radius: 10px;
+    border: 1px solid var(--line); background: var(--bg); cursor: pointer; font-size: .9rem;
+  }
+  .seg input:checked + span { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); font-weight: 700; }
+
+  .status { min-height: 1.4em; margin-top: 10px; text-align: center; color: var(--muted); font-size: .9rem; }
+  .note { font-size: .8rem; color: var(--muted); margin-top: 14px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Wish you were <span>beer</span></h1>
+
+  <div class="stage" id="stage">
+    <video id="video" playsinline muted></video>
+    <canvas id="preview" hidden></canvas>
+    <div class="grid" id="grid" aria-hidden="true">
+      <i class="v" style="left:38.2%"></i><i class="v" style="left:61.8%"></i>
+      <i class="h" style="top:38.2%"></i><i class="h" style="top:61.8%"></i>
+      <b style="left:38.2%;top:38.2%"></b><b style="left:61.8%;top:38.2%"></b>
+      <b style="left:38.2%;top:61.8%"></b><b style="left:61.8%;top:61.8%"></b>
+    </div>
+    <div class="stage-msg" id="stageMsg" hidden></div>
+  </div>
+
+  <div class="row" id="shootRow">
+    <label class="btn">Choose photo<input type="file" id="file" accept="image/*"></label>
+    <button class="shutter" id="shutter" aria-label="Take photo"></button>
+  </div>
+  <div class="row" id="doneRow" hidden>
+    <button id="retake">Retake</button>
+    <button id="copy">Copy caption</button>
+    <button id="save">Save</button>
+    <button class="primary" id="share">Share</button>
+  </div>
+  <div class="status" id="status" role="status" aria-live="polite"></div>
+
+  <div class="panel">
+    <label class="field">Where
+      <input type="text" id="venue" maxlength="48" placeholder="Pub or bar name" autocomplete="off">
+    </label>
+    <label class="field">Text after the location
+      <input type="text" id="tag" maxlength="40" placeholder="Wish you were beer" autocomplete="off">
+    </label>
+    <label class="check"><input type="checkbox" id="priceOn"> Add the price</label>
+    <div class="price-row" id="priceRow" hidden>
+      <select id="cur" aria-label="Currency"><option>€</option><option>£</option></select>
+      <input type="text" id="price" inputmode="decimal" placeholder="7.20" aria-label="Price of the drink" autocomplete="off">
+    </div>
+  </div>
+
+  <div class="panel">
+    <label class="check"><input type="checkbox" id="gridOn" checked> Golden ratio grid</label>
+    <div class="seg" role="radiogroup" aria-label="Image size">
+      <label><input type="radio" name="fmt" value="square" checked><span>Square</span></label>
+      <label><input type="radio" name="fmt" value="portrait"><span>Portrait</span></label>
+      <label><input type="radio" name="fmt" value="story"><span>Story</span></label>
+    </div>
+  </div>
+
+  <p class="note">Put the glass on one of the four amber dots. Location, time and price are drawn into the image, and nothing leaves your phone until you share. Instagram ignores captions, so Share copies yours first and you paste it in.</p>
+</main>
+
+<script>
+const FORMATS = {
+  square:   { w: 1080, h: 1080, ar: '1 / 1',   arn: 1,      bottom: 0.05 },
+  portrait: { w: 1080, h: 1350, ar: '4 / 5',   arn: 0.8,    bottom: 0.05 },
+  story:    { w: 1080, h: 1920, ar: '9 / 16',  arn: 0.5625, bottom: 0.12 },
+};
+const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+
+const $ = id => document.getElementById(id);
+const stage = $('stage'), video = $('video'), preview = $('preview');
+const state = { src: null, stream: null, takenAt: null, file: null, timer: null };
+
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch {} },
+};
+
+function currentFormat() {
+  return FORMATS[document.querySelector('input[name=fmt]:checked').value];
+}
+
+function priceText() {
+  if (!$('priceOn').checked) return '';
+  const n = parseFloat($('price').value.replace(',', '.'));
+  return Number.isFinite(n) && n >= 0 ? $('cur').value + n.toFixed(2) : '';
+}
+
+function mainLine() {
+  return [$('venue').value.trim(), $('tag').value.trim()].filter(Boolean).join(' · ');
+}
+
+function stamp(date) {
+  return date.toLocaleString('en-IE', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+function fit(ctx, text, maxW, size, min, weight) {
+  let s = size;
+  ctx.font = `${weight} ${s}px ${FONT}`;
+  while (ctx.measureText(text).width > maxW && s > min) {
+    s -= 1;
+    ctx.font = `${weight} ${s}px ${FONT}`;
+  }
+  if (ctx.measureText(text).width <= maxW) return text;
+  let t = text;
+  while (t.length > 1 && ctx.measureText(t + '…').width > maxW) t = t.slice(0, -1);
+  return t.trimEnd() + '…';
+}
+
+// Shrink the whole line first; if it still overflows, cut the venue and keep the text after it.
+function fitLine(ctx, maxW, size, min) {
+  const venue = $('venue').value.trim(), tag = $('tag').value.trim();
+  const full = mainLine();
+  const shrunk = fit(ctx, full, maxW, size, min, 700);
+  if (shrunk === full || !venue || !tag) return shrunk;
+  const suffix = ' · ' + tag;
+  let v = venue;
+  while (v.length > 1 && ctx.measureText(v.trimEnd() + '…' + suffix).width > maxW) v = v.slice(0, -1);
+  return v.trimEnd() + '…' + suffix;
+}
+
+function render() {
+  if (!state.src) return;
+  const f = currentFormat();
+  preview.width = f.w;
+  preview.height = f.h;
+  const ctx = preview.getContext('2d');
+
+  const sw = state.src.width, sh = state.src.height;
+  const scale = Math.max(f.w / sw, f.h / sh);
+  const dw = sw * scale, dh = sh * scale;
+  ctx.drawImage(state.src, (f.w - dw) / 2, (f.h - dh) / 2, dw, dh);
+
+  const line = mainLine();
+  const price = priceText();
+  const when = stamp(state.takenAt);
+  const m = f.w * 0.05;
+  const base = f.h - Math.max(m, f.h * f.bottom);
+
+  const scrimH = f.h * (f.bottom > 0.05 ? 0.3 : 0.2);
+  const g = ctx.createLinearGradient(0, f.h - scrimH, 0, f.h);
+  g.addColorStop(0, 'rgba(0,0,0,0)');
+  g.addColorStop(1, 'rgba(0,0,0,.6)');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, f.h - scrimH, f.w, scrimH);
+
+  ctx.textBaseline = 'alphabetic';
+  ctx.textAlign = 'left';
+
+  let pillW = 0;
+  if (price) {
+    ctx.font = `800 ${f.w * 0.05}px ${FONT}`;
+    const padX = f.w * 0.025, padY = f.w * 0.014, size = f.w * 0.05;
+    pillW = ctx.measureText(price).width + padX * 2;
+    const pillH = size + padY * 2;
+    const x = f.w - m - pillW, y = base - pillH + padY * 0.6;
+    ctx.fillStyle = '#f2a93b';
+    ctx.beginPath();
+    ctx.roundRect(x, y, pillW, pillH, pillH / 2);
+    ctx.fill();
+    ctx.fillStyle = '#1c1304';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(price, x + padX, y + pillH / 2 + size * 0.03);
+    ctx.textBaseline = 'alphabetic';
+  }
+
+  const maxW = f.w - m * 2 - (pillW ? pillW + m * 0.6 : 0);
+  ctx.shadowColor = 'rgba(0,0,0,.5)';
+  ctx.shadowBlur = f.w * 0.01;
+  ctx.fillStyle = '#fff';
+
+  if (line) ctx.fillText(fitLine(ctx, maxW, f.w * 0.05, f.w * 0.03), m, base - f.w * 0.04);
+  ctx.fillStyle = 'rgba(255,255,255,.82)';
+  ctx.fillText(fit(ctx, when, maxW, f.w * 0.03, f.w * 0.022, 500), m, base);
+
+  ctx.shadowColor = 'transparent';
+  scheduleFile();
+}
+
+function scheduleFile() {
+  state.file = null;
+  clearTimeout(state.timer);
+  state.timer = setTimeout(() => {
+    preview.toBlob(b => {
+      if (b) state.file = new File([b], 'wish-you-were-beer.jpg', { type: 'image/jpeg' });
+    }, 'image/jpeg', 0.92);
+  }, 250);
+}
+
+function caption() {
+  return [mainLine(), priceText(), '#WishYouWereBeer'].filter(Boolean).join(' · ');
+}
+
+function say(msg) { $('status').textContent = msg; }
+
+function applyFormat() {
+  const f = currentFormat();
+  stage.style.setProperty('--ar', f.ar);
+  stage.style.setProperty('--arn', f.arn);
+  render();
+}
+
+function showMsg(text) {
+  $('stageMsg').textContent = text;
+  $('stageMsg').hidden = !text;
+}
+
+async function startCamera() {
+  stopCamera();
+  if (!navigator.mediaDevices?.getUserMedia) {
+    showMsg('Camera not available here. Use Choose photo instead.');
+    return;
+  }
+  try {
+    state.stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1920 }, height: { ideal: 1920 } },
+      audio: false,
+    });
+    video.srcObject = state.stream;
+    await video.play();
+    showMsg('');
+  } catch {
+    showMsg('Camera blocked. Allow camera access, or use Choose photo.');
+  }
+}
+
+function stopCamera() {
+  state.stream?.getTracks().forEach(t => t.stop());
+  state.stream = null;
+}
+
+function setMode(done) {
+  video.hidden = done;
+  preview.hidden = !done;
+  $('shootRow').hidden = done;
+  $('doneRow').hidden = !done;
+  if (!done) { state.src = null; state.file = null; say(''); }
+}
+
+function take() {
+  if (!video.videoWidth) { say('Camera is not ready yet.'); return; }
+  const c = document.createElement('canvas');
+  c.width = video.videoWidth;
+  c.height = video.videoHeight;
+  c.getContext('2d').drawImage(video, 0, 0);
+  state.src = c;
+  state.takenAt = new Date();
+  stopCamera();
+  setMode(true);
+  render();
+}
+
+async function loadFile(file) {
+  if (!file) return;
+  try {
+    state.src = await createImageBitmap(file, { imageOrientation: 'from-image' });
+  } catch {
+    state.src = await new Promise((res, rej) => {
+      const img = new Image();
+      img.onload = () => res(img);
+      img.onerror = rej;
+      img.src = URL.createObjectURL(file);
+    }).catch(() => null);
+  }
+  if (!state.src) { say('Could not read that photo.'); return; }
+  state.takenAt = new Date(file.lastModified || Date.now());
+  stopCamera();
+  setMode(true);
+  render();
+}
+
+async function fileNow() {
+  if (state.file) return state.file;
+  const b = await new Promise(r => preview.toBlob(r, 'image/jpeg', 0.92));
+  return new File([b], 'wish-you-were-beer.jpg', { type: 'image/jpeg' });
+}
+
+function download(file) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(file);
+  a.download = file.name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+
+$('shutter').onclick = take;
+$('file').onchange = e => { loadFile(e.target.files[0]); e.target.value = ''; };
+$('retake').onclick = () => { setMode(false); startCamera(); };
+
+$('copy').onclick = async () => {
+  try { await navigator.clipboard.writeText(caption()); say('Caption copied.'); }
+  catch { say('Could not copy. Caption: ' + caption()); }
+};
+
+$('save').onclick = async () => { download(await fileNow()); say('Saved.'); };
+
+$('share').onclick = async () => {
+  const file = await fileNow();
+  navigator.clipboard?.writeText(caption()).catch(() => {});
+  if (navigator.canShare?.({ files: [file] })) {
+    try {
+      await navigator.share({ files: [file] });
+      say('Caption copied. Paste it in if the app asks for one.');
+    } catch (e) {
+      if (e.name !== 'AbortError') say('Sharing failed. Try Save instead.');
+    }
+  } else {
+    download(file);
+    say('Sharing is not supported here, so the image was saved. Caption copied.');
+  }
+};
+
+$('priceOn').onchange = () => { $('priceRow').hidden = !$('priceOn').checked; render(); if (!$('priceRow').hidden) $('price').focus(); };
+$('gridOn').onchange = () => { $('grid').hidden = !$('gridOn').checked; };
+document.querySelectorAll('input[name=fmt]').forEach(r => r.onchange = applyFormat);
+
+['venue', 'tag', 'price'].forEach(id => {
+  $(id).addEventListener('input', () => {
+    if (id !== 'price') store.set('wywb.' + id, $(id).value);
+    render();
+  });
+});
+$('cur').onchange = () => { store.set('wywb.cur', $('cur').value); render(); };
+
+$('venue').value = store.get('wywb.venue') || '';
+$('tag').value = store.get('wywb.tag') ?? 'Wish you were beer';
+$('cur').value = store.get('wywb.cur') || '€';
+
+applyFormat();
+startCamera();
+</script>
+</body>
+</html>
