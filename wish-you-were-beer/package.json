@@ -6,7 +6,8 @@
   "scripts": {
     "build": "node scripts/build-www.js",
     "sync": "npm run build && cap sync ios",
-    "ios": "npm run sync && cap open ios"
+    "ios": "npm run sync && cap open ios",
+    "check": "node scripts/preflight.js"
   },
   "dependencies": {
     "@capacitor/core": "^7.0.0",

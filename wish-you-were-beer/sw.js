@@ -1,4 +1,4 @@
-const CACHE = 'wywb-v4';
+const CACHE = 'wywb-v5';
 const SHELL = ['./', './index.html', './app.css', './app.js', './manifest.json', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-180.png',
   './fonts/inter-latin-400.woff2', './fonts/inter-latin-600.woff2', './fonts/inter-latin-ext-400.woff2', './fonts/inter-latin-ext-600.woff2'];
 

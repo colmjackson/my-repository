@@ -2,7 +2,7 @@
 
 Photograph your drink, stamp it with where you are, the time and what it cost, and share it. The text is drawn into the picture, so there is nothing to type or paste afterwards. iPhone app and web version. No accounts, no server, no tracking. Free.
 
-Status and to-do list: `HANDOVER.md`. Rules for working on it: `CLAUDE.md`.
+Status and to-do list: `HANDOVER.md`. Sign off sheet: `Docs/signoff.md`. Rules for working on it: `CLAUDE.md`.
 
 ## What it does
 - **Snap:** live camera with a golden ratio grid (four dots where the eye lands), or choose a photo. The grid never appears in the finished picture.
@@ -17,7 +17,7 @@ Status and to-do list: `HANDOVER.md`. Rules for working on it: `CLAUDE.md`.
 | `sw.js`, `manifest.json` | Offline support and Home Screen install for the web version |
 | `fonts/`, `icons/` | Inter (OFL licence in `fonts/OFL.txt`) and the app icon sizes (source `icons/icon.svg`) |
 | `ios/`, `capacitor.config.json`, `package.json` | The iPhone wrapper (Capacitor 7). Generated parts are git-ignored |
-| `scripts/` | `build-www.js` (web files into the app), `build-site.js` (pages into the website), `set-bundle-id.sh` |
+| `scripts/` | `preflight.js` (`npm run check`: go or no go), `build-www.js` (web files into the app), `build-site.js` (pages into the website), `set-bundle-id.sh` |
 | `Tests/run.js`, `Reports/` | 28 automated checks (security, function, accessibility) and their dated reports |
 | `AppStore/` | Listing, privacy policy, review notes, submission checklist, website pages, screenshots, sample postcards, tools |
 | `Design/` | Style notes, icon source, font comparison |

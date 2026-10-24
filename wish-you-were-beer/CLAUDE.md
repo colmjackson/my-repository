@@ -10,6 +10,7 @@ Read `HANDOVER.md` first (status, to-do list, gotchas), then `README.md` (what e
 - **Domain:** youknowthatsite.com. This app sits at `/wishyouwerebeer/` like the others (path, not a subdomain).
 
 ## Build and test
+- Quick go or no go: `npm run check` (add the website folder path to check it too).
 - Web: serve this folder (`python3 -m http.server 8767`) and open `index.html`. Tests: `NODE_PATH=$(npm root -g) node Tests/run.js http://localhost:8767 Reports` (28 checks: security, function, accessibility). A dated report goes in `Reports/`.
 - iPhone: `npm install`, then `npm run ios` (copies the web files into the app, runs pod install, opens Xcode). Steps in `Docs/build-ios.md`. The project is a Capacitor wrapper in `ios/`; it has never been opened in Xcode yet.
 - Bundle `com.colmjackson.WishYouWereBeer`, iPhone only, portrait, iOS 15 or later. Pick the paid team in Xcode (do not commit the team id).

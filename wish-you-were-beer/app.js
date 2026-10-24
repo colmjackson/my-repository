@@ -145,8 +145,15 @@ function render() {
     const pillH = size + padY * 2;
     const x = f.w - m - pillW, y = base - pillH + padY * 0.6;
     ctx.fillStyle = '#ffc400';
+    // Drawn with arcs: the built in rounded rectangle call needs iOS 16, and the app supports iOS 15.
+    const rad = pillH / 2;
     ctx.beginPath();
-    ctx.roundRect(x, y, pillW, pillH, pillH / 2);
+    ctx.moveTo(x + rad, y);
+    ctx.lineTo(x + pillW - rad, y);
+    ctx.arc(x + pillW - rad, y + rad, rad, -Math.PI / 2, Math.PI / 2);
+    ctx.lineTo(x + rad, y + pillH);
+    ctx.arc(x + rad, y + rad, rad, Math.PI / 2, Math.PI * 3 / 2);
+    ctx.closePath();
     ctx.fill();
     ctx.fillStyle = '#1b3a57';
     ctx.textBaseline = 'middle';
