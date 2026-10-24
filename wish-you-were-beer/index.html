@@ -105,6 +105,9 @@
   .check { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--ink); font-size: .95rem; }
   .check input { width: 20px; height: 20px; accent-color: var(--amber); }
 
+  .vibes { display: flex; flex-wrap: wrap; gap: 6px; margin: -2px 0 12px; }
+  .vibes button { font-size: .8rem; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: transparent; color: var(--muted); }
+  .maps-check { display: inline-block; margin: -4px 0 10px; font-size: .85rem; color: var(--amber); }
   .seg { display: flex; gap: 6px; }
   .seg label { flex: 1; }
   .seg input { position: absolute; opacity: 0; }
@@ -152,11 +155,14 @@
 
   <div class="panel">
     <label class="field">Where
-      <input type="text" id="venue" maxlength="48" placeholder="Pub or bar name" autocomplete="off">
+      <input type="text" id="venue" maxlength="48" placeholder="Pub name and town" autocomplete="off">
     </label>
+    <a class="maps-check" id="mapsCheck" target="_blank" rel="noopener" hidden>Check it on Google Maps</a>
     <label class="field">Text after the location
       <input type="text" id="tag" maxlength="40" placeholder="Wish you were beer" autocomplete="off">
     </label>
+    <div class="vibes" id="vibes" aria-label="Quick lines"></div>
+    <label class="check"><input type="checkbox" id="mapsOn" checked> Add a Google Maps link to the caption</label>
     <label class="check"><input type="checkbox" id="priceOn"> Add the price</label>
     <div class="price-row" id="priceRow" hidden>
       <select id="cur" aria-label="Currency"><option>€</option><option>£</option></select>
@@ -350,8 +356,21 @@ function scheduleFile() {
   }, 250);
 }
 
+// Search link, no API key needed. A town in the venue text helps Google find the right pub.
+function mapsUrl() {
+  const v = $('venue').value.trim();
+  return v ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(v) : '';
+}
+
 function caption() {
-  return [mainLine(), priceText(), '#WishYouWereBeer'].filter(Boolean).join(' · ');
+  const first = [mainLine(), priceText(), '#WishYouWereBeer'].filter(Boolean).join(' · ');
+  return [first, $('mapsOn').checked ? mapsUrl() : ''].filter(Boolean).join('\n');
+}
+
+function paintMapsCheck() {
+  const url = mapsUrl();
+  $('mapsCheck').hidden = !url;
+  if (url) $('mapsCheck').href = url;
 }
 
 function say(msg) { $('status').textContent = msg; }
@@ -471,7 +490,7 @@ $('share').onclick = async () => {
   navigator.clipboard?.writeText(caption()).catch(() => {});
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file] });
+      await navigator.share({ files: [file], text: caption() });
       say('Caption copied. Paste it in if the app asks for one.');
     } catch (e) {
       if (e.name !== 'AbortError') say('Sharing failed. Try Save instead.');
@@ -489,6 +508,7 @@ document.querySelectorAll('input[name=fmt]').forEach(r => r.onchange = applyForm
 ['venue', 'tag', 'price'].forEach(id => {
   $(id).addEventListener('input', () => {
     if (id !== 'price') store.set('wywb.' + id, $(id).value);
+    paintMapsCheck();
     render();
   });
 });
@@ -517,10 +537,22 @@ const savedLook = store.get('wywb.look');
 if (savedLook !== null && (savedLook === '' || LOOKS[savedLook])) state.look = savedLook;
 paintLooks();
 
+['Wish you were beer', 'Great craic', 'Cracking pint', 'Cosy corner', 'Live music on', 'Best seat in the house'].forEach(t => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = t;
+  b.onclick = () => { $('tag').value = t; store.set('wywb.tag', t); render(); };
+  $('vibes').appendChild(b);
+});
+
+$('mapsOn').checked = store.get('wywb.maps') !== 'off';
+$('mapsOn').onchange = () => store.set('wywb.maps', $('mapsOn').checked ? 'on' : 'off');
+
 $('venue').value = store.get('wywb.venue') || '';
 $('tag').value = store.get('wywb.tag') ?? 'Wish you were beer';
 $('cur').value = store.get('wywb.cur') || '€';
 
+paintMapsCheck();
 applyFormat();
 startCamera();
 

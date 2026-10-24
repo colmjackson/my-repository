@@ -61,7 +61,7 @@ Lines 5 and 7 are the cheekiest. Keep lines that celebrate volume (rounds piling
 > Take the photo in the app or choose one from your camera roll. A golden ratio grid shows where the glass should sit, so even a shaky pub snap ends up looking composed.
 >
 > WHAT IT DOES
-> Where: type the pub and add your own line after it.
+> Where: type the pub and town, add your own line after it, and the caption carries a Google Maps link so friends can find the place.
 > When: the date and time are added for you.
 > How much: add the price as a stamp in the corner, in € or £. Irish pints deserve a record.
 > Five looks: Stout, Lager, Pale, Last Orders and Snug.
@@ -94,7 +94,9 @@ Suggested text for the review notes field:
 4. **Screenshots.** Apple wants screenshots that show the real app in use. The ones in `framed/` use an illustrated pint as a stand in. Replace them with real photos before you submit.
 5. **Using a real pub name.** The screenshots use an invented pub, "The Gilded Hop, Cork". Keep it that way in store images.
 
-## Pricing options
+## Pricing
+
+Decided: the app is free. The table below is kept for the record.
 
 | Option | For | Against |
 | --- | --- | --- |
@@ -102,4 +104,4 @@ Suggested text for the review notes field:
 | One off, about €1.99 | Fits the "no subscriptions, no ads" posture, filters out casual downloads | Fewer people try it |
 | Free with a paid pack of looks | Familiar model | More to build, and it adds purchase review work |
 
-Recommendation: free through TestFlight to your friends first, then decide. A subscription does not suit a joke app. VERIFY Apple's small business commission programme if you charge.
+Free means no income, so keep running costs at zero. The Google Maps link in the caption is a plain search link and needs no key or billing. A venue lookup through the Google Places API is not free at scale (VERIFY the current pricing), so I have not used it.

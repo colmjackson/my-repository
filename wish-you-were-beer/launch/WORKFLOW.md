@@ -37,6 +37,8 @@ There are no accounts, no feed, no settings screen and no onboarding.
 
 ## Share behaviour
 
+The caption holds the pub, your line, the price, the hashtag and a Google Maps search link for the pub, which you can switch off. Maps links are clickable on X, Threads, WhatsApp and Facebook. Instagram captions do not turn links into clickable text, so there the link only works if someone copies it. The app cannot set an Instagram location tag for you, because Instagram does not accept one from a share sheet.
+
 Share copies the caption first, then opens the phone's share sheet with the image. Instagram ignores any caption sent with an image, so the person pastes it in. If the browser cannot share files, the image is saved instead and the caption is still copied.
 
 ## Release path

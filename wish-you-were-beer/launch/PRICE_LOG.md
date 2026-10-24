@@ -6,6 +6,10 @@ This is the one feature that needs a server. I have prepared the design and the 
 
 When someone shares a postcard with a price on it, the app could also send one anonymous record: the venue, the price, the date. Over time that becomes a map of what a pint costs in each pub, which is the part of the idea that grows with more users. The postcards are a joke people share once. A price map is something strangers use.
 
+## A tension to settle first
+
+You want the app to highlight and promote places, and the price stamp is partly a joke about how expensive pints are. A public map of prices turns that joke into a ranking of the dearest pubs, which is the opposite of promotion for the venue. If promotion is the aim, I would drop the price log and keep the price as something a person chooses to put on their own card.
+
 ## Rules I would keep
 
 1. **Opt in, off by default.** A switch labelled "Add this price to the pint price map", with one line saying what is sent.

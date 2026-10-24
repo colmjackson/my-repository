@@ -21,7 +21,7 @@ The pint in every image is an illustration standing in for a real photo, and the
 1. **Distribution.** Friends on the web version first, then TestFlight, then the App Store (my recommendation), or straight to the App Store.
 2. **Price log.** You said yes to the idea, but it is the one thing that changes the privacy position and needs a server. I recommend building it after TestFlight, switched off by default. Do you want it earlier?
 3. **Name.** Keep "Wish You Were Beer"? The trademark search is still to do, and I could not do it from here.
-4. **Pricing.** Free, or a one off payment?
+4. **Pricing.** Decided: free. See the note in `APP_STORE.md` on keeping running costs at zero.
 5. **Bundle ID.** Which domain do you own?
 6. **Mac.** Do you have one for Xcode? It decides how Stage 1 works.
 7. **Taglines.** Pick from the list in `APP_STORE.md`.
