@@ -18,16 +18,18 @@ I also ran four of your real drink photos through every look to test the app. Th
 
 The pint in every image is an illustration standing in for a real photo, and the pub, "The Gilded Hop, Cork", is invented. Replace them with real photos before you submit anything to Apple.
 
-## Decisions for the morning
+## Decided
 
-1. **Distribution.** Friends on the web version first, then TestFlight, then the App Store (my recommendation), or straight to the App Store.
-2. **Price log.** You said yes to the idea, but it is the one thing that changes the privacy position and needs a server. I recommend building it after TestFlight, switched off by default. Do you want it earlier?
-3. **Name.** Keep "Wish You Were Beer"? The trademark search is still to do, and I could not do it from here.
-4. **Pricing.** Decided: free. See the note in `APP_STORE.md` on keeping running costs at zero.
-5. **Bundle ID.** Which domain do you own?
-6. **Mac.** Do you have one for Xcode? It decides how Stage 1 works.
-7. **Taglines.** Pick from the list in `APP_STORE.md`.
-8. **Share.** I never saw that app's share screen, so Share is still the plain phone share sheet. Send a screenshot of the one you like.
+Free. No video. No map link and no caption: the picture carries everything. One font, Inter, everywhere (`font-options.png` shows the alternatives).
+
+## Still open
+
+1. **Story size.** A 9:16 Story crops about a quarter off the sides of a normal phone photo. Keep the crop, or keep the whole photo on a blurred backdrop? I recommend keeping the whole photo.
+2. **Name.** The trademark search for "Wish You Were Beer" is still to do, and I could not do it from here.
+3. **Bundle ID.** Which domain do you own?
+4. **Mac.** You have one working, so the TestFlight stage is possible. It needs Xcode and a developer account.
+5. **Taglines.** Pick from the list in `APP_STORE.md`.
+6. **Price map.** Still unbuilt. See `PRICE_LOG.md`.
 
 ## Regenerating the screenshots
 

@@ -13,6 +13,14 @@
 <link rel="icon" href="icons/icon-192.png">
 <title>Wish You Were Beer</title>
 <style>
+  @font-face { font-family: Inter; font-weight: 400; font-display: swap; src: url(fonts/inter-latin-400.woff2) format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: Inter; font-weight: 400; font-display: swap; src: url(fonts/inter-latin-ext-400.woff2) format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+  @font-face { font-family: Inter; font-weight: 600; font-display: swap; src: url(fonts/inter-latin-600.woff2) format('woff2');
+    unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
+  @font-face { font-family: Inter; font-weight: 600; font-display: swap; src: url(fonts/inter-latin-ext-600.woff2) format('woff2');
+    unicode-range: U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+0304,U+0308,U+0329,U+1D00-1DBF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
   :root {
     --bg: #14110d;
     --card: #1f1a14;
@@ -28,19 +36,15 @@
     margin: 0;
     background: var(--bg);
     color: var(--ink);
-    font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font: 16px/1.4 Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   main { max-width: 480px; margin: 0 auto; padding: 16px; }
-  h1, .sub, .looks button {
-    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
-    font-style: italic;
-  }
-  h1 { font-size: 1.7rem; font-weight: 400; margin: 0; color: var(--cream); line-height: 1.15; }
+  h1 { font-size: 1.5rem; font-weight: 600; letter-spacing: -.02em; margin: 0; color: var(--cream); line-height: 1.15; }
   h1 span { color: var(--amber); }
   .sub { margin: 2px 0 14px; color: var(--muted); }
   .looks { display: flex; gap: 6px; margin-top: 12px; overflow-x: auto; padding-bottom: 2px; }
   .looks button {
-    flex: 1 0 auto; font-weight: 400; font-size: 1rem; padding: 8px 14px; border-radius: 999px;
+    flex: 1 0 auto; font-weight: 600; font-size: .9rem; padding: 8px 14px; border-radius: 999px;
     background: transparent; color: var(--muted);
   }
   .looks button[aria-checked=true] { background: var(--cream); color: #1b1710; border-color: var(--cream); }
@@ -105,9 +109,6 @@
   .check { display: flex; align-items: center; gap: 10px; margin: 0 0 10px; color: var(--ink); font-size: .95rem; }
   .check input { width: 20px; height: 20px; accent-color: var(--amber); }
 
-  .vibes { display: flex; flex-wrap: wrap; gap: 6px; margin: -2px 0 12px; }
-  .vibes button { font-size: .8rem; font-weight: 500; padding: 5px 10px; border-radius: 999px; background: transparent; color: var(--muted); }
-  .maps-check { display: inline-block; margin: -4px 0 10px; font-size: .85rem; color: var(--amber); }
   .seg { display: flex; gap: 6px; }
   .seg label { flex: 1; }
   .seg input { position: absolute; opacity: 0; }
@@ -115,10 +116,12 @@
     display: block; text-align: center; padding: 9px 4px; border-radius: 10px;
     border: 1px solid var(--line); background: var(--bg); cursor: pointer; font-size: .9rem;
   }
-  .seg input:checked + span { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); font-weight: 700; }
+  .seg input:checked + span { background: var(--amber); color: var(--amber-ink); border-color: var(--amber); font-weight: 600; }
 
   .status { min-height: 1.4em; margin-top: 10px; text-align: center; color: var(--muted); font-size: .9rem; }
   .note { font-size: .8rem; color: var(--muted); margin-top: 14px; }
+  details.panel summary { cursor: pointer; color: var(--muted); font-size: .9rem; }
+  details.panel[open] summary { margin-bottom: 12px; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -147,7 +150,6 @@
   </div>
   <div class="row" id="doneRow" hidden>
     <button id="retake">Retake</button>
-    <button id="copy">Copy caption</button>
     <button id="save">Save</button>
     <button class="primary" id="share">Share</button>
   </div>
@@ -155,14 +157,11 @@
 
   <div class="panel">
     <label class="field">Where
-      <input type="text" id="venue" maxlength="48" placeholder="Pub name and town" autocomplete="off">
+      <input type="text" id="venue" maxlength="48" placeholder="Where are you?" autocomplete="off">
     </label>
-    <a class="maps-check" id="mapsCheck" target="_blank" rel="noopener" hidden>Check it on Google Maps</a>
-    <label class="field">Text after the location
+    <label class="field">Say something
       <input type="text" id="tag" maxlength="40" placeholder="Wish you were beer" autocomplete="off">
     </label>
-    <div class="vibes" id="vibes" aria-label="Quick lines"></div>
-    <label class="check"><input type="checkbox" id="mapsOn" checked> Add a Google Maps link to the caption</label>
     <label class="check"><input type="checkbox" id="priceOn"> Add the price</label>
     <div class="price-row" id="priceRow" hidden>
       <select id="cur" aria-label="Currency"><option>€</option><option>£</option><option>$</option></select>
@@ -170,16 +169,17 @@
     </div>
   </div>
 
-  <div class="panel">
+  <details class="panel">
+    <summary>Size and grid</summary>
     <label class="check"><input type="checkbox" id="gridOn" checked> Golden ratio grid</label>
     <div class="seg" role="radiogroup" aria-label="Image size">
       <label><input type="radio" name="fmt" value="square"><span>Square</span></label>
       <label><input type="radio" name="fmt" value="portrait" checked><span>Portrait</span></label>
       <label><input type="radio" name="fmt" value="story"><span>Story</span></label>
     </div>
-  </div>
+  </details>
 
-  <p class="note">Five looks, tap the active one again for none. Put the glass on one of the four amber dots. Location, time and price are drawn into the image, and nothing leaves your phone until you share. Instagram ignores captions, so Share copies yours first and you paste it in.</p>
+  <p class="note">Everything is drawn into the picture, so there is nothing to type or paste.</p>
 </main>
 
 <script>
@@ -188,7 +188,7 @@ const FORMATS = {
   portrait: { w: 1080, h: 1350, ar: '4 / 5',   arn: 0.8,    bottom: 0.05 },
   story:    { w: 1080, h: 1920, ar: '9 / 16',  arn: 0.5625, bottom: 0.12 },
 };
-const FONT = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
+const FONT = 'Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
 
 const $ = id => document.getElementById(id);
 const stage = $('stage'), video = $('video'), preview = $('preview');
@@ -243,7 +243,7 @@ function fit(ctx, text, maxW, size, min, weight) {
 function fitLine(ctx, maxW, size, min) {
   const venue = $('venue').value.trim(), tag = $('tag').value.trim();
   const full = mainLine();
-  const shrunk = fit(ctx, full, maxW, size, min, 700);
+  const shrunk = fit(ctx, full, maxW, size, min, 600);
   if (shrunk === full || !venue || !tag) return shrunk;
   const suffix = ' · ' + tag;
   let v = venue;
@@ -324,7 +324,7 @@ function render() {
 
   let pillW = 0;
   if (price) {
-    ctx.font = `800 ${f.w * 0.05}px ${FONT}`;
+    ctx.font = `600 ${f.w * 0.05}px ${FONT}`;
     const padX = f.w * 0.025, padY = f.w * 0.014, size = f.w * 0.05;
     pillW = ctx.measureText(price).width + padX * 2;
     const pillH = size + padY * 2;
@@ -360,23 +360,6 @@ function scheduleFile() {
       if (b) state.file = new File([b], 'wish-you-were-beer.jpg', { type: 'image/jpeg' });
     }, 'image/jpeg', 0.92);
   }, 250);
-}
-
-// Search link, no API key needed. A town in the venue text helps Google find the right pub.
-function mapsUrl() {
-  const v = $('venue').value.trim();
-  return v ? 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(v) : '';
-}
-
-function caption() {
-  const first = [mainLine(), priceText(), '#WishYouWereBeer'].filter(Boolean).join(' · ');
-  return [first, $('mapsOn').checked ? mapsUrl() : ''].filter(Boolean).join('\n');
-}
-
-function paintMapsCheck() {
-  const url = mapsUrl();
-  $('mapsCheck').hidden = !url;
-  if (url) $('mapsCheck').href = url;
 }
 
 function say(msg) { $('status').textContent = msg; }
@@ -484,26 +467,19 @@ $('shutter').onclick = take;
 $('file').onchange = e => { loadFile(e.target.files[0]); e.target.value = ''; };
 $('retake').onclick = () => { setMode(false); startCamera(); };
 
-$('copy').onclick = async () => {
-  try { await navigator.clipboard.writeText(caption()); say('Caption copied.'); }
-  catch { say('Could not copy. Caption: ' + caption()); }
-};
-
 $('save').onclick = async () => { download(await fileNow()); say('Saved.'); };
 
 $('share').onclick = async () => {
   const file = await fileNow();
-  navigator.clipboard?.writeText(caption()).catch(() => {});
   if (navigator.canShare?.({ files: [file] })) {
     try {
-      await navigator.share({ files: [file], text: caption() });
-      say('Caption copied. Paste it in if the app asks for one.');
+      await navigator.share({ files: [file] });
     } catch (e) {
       if (e.name !== 'AbortError') say('Sharing failed. Try Save instead.');
     }
   } else {
     download(file);
-    say('Sharing is not supported here, so the image was saved. Caption copied.');
+    say('Sharing is not supported here, so the image was saved.');
   }
 };
 
@@ -514,7 +490,6 @@ document.querySelectorAll('input[name=fmt]').forEach(r => r.onchange = applyForm
 ['venue', 'tag', 'price'].forEach(id => {
   $(id).addEventListener('input', () => {
     if (id !== 'price') store.set('wywb.' + id, $(id).value);
-    paintMapsCheck();
     render();
   });
 });
@@ -543,24 +518,15 @@ const savedLook = store.get('wywb.look');
 if (savedLook !== null && (savedLook === '' || LOOKS[savedLook])) state.look = savedLook;
 paintLooks();
 
-['Wish you were beer', 'Great craic', 'Cracking pint', 'Cosy corner', 'Live music on', 'Best seat in the house'].forEach(t => {
-  const b = document.createElement('button');
-  b.type = 'button';
-  b.textContent = t;
-  b.onclick = () => { $('tag').value = t; store.set('wywb.tag', t); render(); };
-  $('vibes').appendChild(b);
-});
-
-$('mapsOn').checked = store.get('wywb.maps') !== 'off';
-$('mapsOn').onchange = () => store.set('wywb.maps', $('mapsOn').checked ? 'on' : 'off');
-
 $('venue').value = store.get('wywb.venue') || '';
 $('tag').value = store.get('wywb.tag') ?? 'Wish you were beer';
 $('cur').value = store.get('wywb.cur') || '€';
 
-paintMapsCheck();
 applyFormat();
 startCamera();
+
+// The watermark is drawn on a canvas, so redraw once Inter has loaded.
+Promise.all([document.fonts.load('600 24px Inter'), document.fonts.load('400 24px Inter')]).then(render).catch(() => {});
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
 </script>

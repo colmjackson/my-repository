@@ -22,6 +22,7 @@ const root = process.argv[2];
     v.srcObject = c.captureStream(30);
     await v.play();
   });
+  await p.evaluate(() => { document.querySelector('details').open = true; });
   await p.fill('#venue', 'The Gilded Hop, Cork');
   await p.check('#priceOn');
   await p.fill('#price', '7.20');

@@ -18,7 +18,7 @@ Last updated: [date]
 
 **What is stored on your phone.** The app remembers the last pub name, the line of text, the currency and the look you chose, so you do not have to type them again. This stays in the app's own storage on your phone. Clearing the app's data removes it. If you use the web version, the app files are also kept in your browser's cache so it can work offline.
 
-**Sharing.** The app only shares a picture when you press Share, Save or Copy caption. Share hands the picture to the app you choose, such as Instagram, Threads, X or WhatsApp. What happens to it after that is governed by that app's own policy.
+**Sharing.** The app only shares a picture when you press Share or Save. Share hands the picture to the app you choose, such as Instagram, Threads, X or WhatsApp. What happens to it after that is governed by that app's own policy.
 
 **Who the app is for.** The app is intended for adults of legal drinking age and is not directed at children.
 

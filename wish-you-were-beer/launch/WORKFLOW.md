@@ -17,7 +17,6 @@ flowchart TD
   I --> J
   J --> K["Share"]
   J --> L["Save"]
-  J --> M["Copy caption"]
   J --> N["Retake"]
   K --> O["Phone share sheet: Instagram, Threads, X, WhatsApp and so on"]
   N --> B
@@ -30,8 +29,8 @@ The pub name, the line after it, the currency and the look are remembered betwee
 | Screen | What is on it |
 | --- | --- |
 | Viewfinder | Live camera cropped to the chosen size, golden ratio grid with four amber dots, shutter, Choose photo |
-| Postcard | The finished image with watermark, look chips, Retake, Copy caption, Save, Share |
-| Details | Where, text after the location, price switch, grid switch, size |
+| Postcard | The finished image with watermark, look chips, Retake, Save, Share |
+| Details | Where, Say something, price switch, and a folded away Size and grid section |
 
 The default size is portrait (4:5), because that is the shape phone photos of a drink usually arrive in, and square would crop them. Currency can be €, £ or $. Dark photos are lifted automatically before the look is applied.
 
@@ -39,9 +38,11 @@ There are no accounts, no feed, no settings screen and no onboarding.
 
 ## Share behaviour
 
-The caption holds the pub, your line, the price, the hashtag and a Google Maps search link for the pub, which you can switch off. Maps links are clickable on X, Threads, WhatsApp and Facebook. Instagram captions do not turn links into clickable text, so there the link only works if someone copies it. The app cannot set an Instagram location tag for you, because Instagram does not accept one from a share sheet.
+Share opens the phone's share sheet with the image and nothing else. There is no caption to copy or paste, because the pub, your line, the price and the time are drawn into the picture. That suits Stories, where nobody types a caption. If the browser cannot share files, the image is saved instead.
 
-Share copies the caption first, then opens the phone's share sheet with the image. Instagram ignores any caption sent with an image, so the person pastes it in. If the browser cannot share files, the image is saved instead and the caption is still copied.
+## The font
+
+One typeface everywhere, for the watermark and the interface: Inter, weights 400 and 600, bundled in `fonts/` under the SIL Open Font License (`fonts/OFL.txt`). It is bundled because a system font changes between iPhone and Android, and the watermark is part of the picture. `font-options.png` in this folder compares Inter with DM Sans and Space Grotesk on the same card. To change it, swap the files in `fonts/` and the font name in `index.html`.
 
 ## Release path
 

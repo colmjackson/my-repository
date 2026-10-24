@@ -61,7 +61,7 @@ Lines 5 and 7 are the cheekiest. Keep lines that celebrate volume (rounds piling
 > Take the photo in the app or choose one from your camera roll. A golden ratio grid shows where the glass should sit, so even a shaky pub snap ends up looking composed.
 >
 > WHAT IT DOES
-> Where: type the pub and town, add your own line after it, and the caption carries a Google Maps link so friends can find the place.
+> Where: type the pub or town. Add your own line after it, or keep the default.
 > When: the date and time are added for you.
 > How much: add the price as a stamp in the corner, in € or £. Irish pints deserve a record.
 > Five looks: Stout, Lager, Pale, Last Orders and Snug.
@@ -104,4 +104,4 @@ Decided: the app is free. The table below is kept for the record.
 | One off, about €1.99 | Fits the "no subscriptions, no ads" posture, filters out casual downloads | Fewer people try it |
 | Free with a paid pack of looks | Familiar model | More to build, and it adds purchase review work |
 
-Free means no income, so keep running costs at zero. The Google Maps link in the caption is a plain search link and needs no key or billing. A venue lookup through the Google Places API is not free at scale (VERIFY the current pricing), so I have not used it.
+Free means no income, so keep running costs at zero. Nothing in the app calls a paid service or a server. A venue lookup through the Google Places API is not free at scale (VERIFY the current pricing), so I have not used it.
