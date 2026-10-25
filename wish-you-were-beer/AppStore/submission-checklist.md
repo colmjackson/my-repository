@@ -9,6 +9,7 @@
 - [x] Camera permission text, portrait only, iPhone only
 
 ## Colm to provide
+- [x] Trademark search: "Wish You Were Beer" and "Wish You Were Here" reported clear on the Irish, EU and UK registers (Colm, 2026-10-25)
 - [x] Support email: support@youknowthatsite.com
 - [ ] Privacy and support pages live on youknowthatsite.com (upload `Website-upload` to Cloudflare, then check the page title with curl, because unknown paths show the home page)
 - [x] Copyright line: "© 2026 You Know That Site"

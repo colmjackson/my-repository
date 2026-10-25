@@ -1,16 +1,16 @@
 # Sign off sheet
 
-Written 2026-10-24 night. Everything below the line "Colm confirms" needs your yes or no. Nothing has been uploaded, merged to main, or submitted.
+Written 2026-10-24 night, updated 2026-10-25. Cleared so far: the name (trademark), and the website branch is merged to the site's `main`. Nothing has been uploaded to Cloudflare, built on the Mac, or submitted.
 
 ## Ready now
 - Web version and the app code, restyled in the suite look. `Tests/run.js`: 28 of 28. `npm run check`: 47 of 47 (identity, privacy manifest, permissions, icon with no transparency, listing limits, iOS 15 compatibility, no placeholders, no secrets, website links).
 - Fixed overnight: the price stamp used a drawing call that needs iOS 16. The app supports iOS 15, so it would have failed there. It is now drawn with arcs, and the check catches it in future.
 - Checked in Capacitor's own source: its code is injected by WebKit, not as script tags, so the strict page policy does not block it; the camera request is granted so the iPhone's normal camera prompt takes over; Share accepts picture files; the cache folder is the right place to write them.
-- Website branch `claude/wishyouwerebeer` in the site repo: card, landing, privacy, support, web version, icon, headers. All its links resolve.
+- Website: merged into the site repo's `main` on 2026-10-25 (fast forward, commit `3533e77`): card, landing, privacy, support, web version, icon, headers. All its links resolve. Not uploaded yet.
 - Listing, privacy policy, review notes and submission checklist are in `AppStore/`.
 
 ## Colm confirms (tick or change)
-1. **Name.** "Wish You Were Beer". The pun on the ITV programme title is usually tolerated for a small free app. I could not search the UK, Irish or EU trademark registers from here. Do a quick search before you submit.
+1. **Name.** DONE 2026-10-25: "Wish You Were Beer" reported clear by Colm on the Irish (IPOI), EU (EUIPO) and UK (IPO) registers, with "Wish You Were Here" also checked. Re-check if the name changes or before any paid launch.
 2. **Subtitle.** "Postcards from the pub". Alternatives in `AppStore/listing-en-GB.md`.
 3. **Age rating and copy.** Answer the alcohol question honestly in App Store Connect. The copy documents a drink and never encourages more of it.
 4. **Free.** No purchases, no ads.
@@ -21,11 +21,10 @@ Written 2026-10-24 night. Everything below the line "Colm confirms" needs your y
 
 ## Morning steps, in order
 
-**1. Website (about 10 minutes).** In the Website repo on the Mac:
+**1. Website (about 10 minutes).** The merge is done. In the Website repo on the Mac:
 ```
-git fetch origin
 git checkout main
-git merge origin/claude/wishyouwerebeer
+git pull
 cp -R wishyouwerebeer ../Website-upload/
 cp img/wishyouwerebeer-icon.png ../Website-upload/img/
 cp index.html _headers ../Website-upload/

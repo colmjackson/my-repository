@@ -6,7 +6,7 @@ Read `HANDOVER.md` first (status, to-do list, gotchas), then `README.md` (what e
 
 ## Where things live
 - **Code:** `colmjackson/my-repository` (public), folder `wish-you-were-beer/`, branch `claude/wish-you-were-beer`. It is not on ClaudeHQ yet, and the other apps are in private repos, so decide whether to move it (see HANDOVER).
-- **Website pages and web version:** the `colmjackson/youknowthatsite-website` repo, branch `claude/wishyouwerebeer`, folder `wishyouwerebeer/`. Source copies of the pages are in `AppStore/website/`. `node scripts/build-site.js <website folder>` rebuilds them.
+- **Website pages and web version:** the `colmjackson/youknowthatsite-website` repo, on `main` (merged 2026-10-25), folder `wishyouwerebeer/`. Source copies of the pages are in `AppStore/website/`. `node scripts/build-site.js <website folder>` rebuilds them.
 - **Domain:** youknowthatsite.com. This app sits at `/wishyouwerebeer/` like the others (path, not a subdomain).
 
 ## Build and test
