@@ -1,0 +1,20 @@
+{
+  "name": "weekly-money-planner",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Weekly Money Planner: web page plus iPhone app wrapper (Capacitor).",
+  "scripts": {
+    "build": "node scripts/build-web.js",
+    "ios:setup": "bash scripts/ios-setup.sh",
+    "ios:sync": "npm run build && cap sync ios",
+    "ios:open": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "^7.0.0",
+    "@capacitor/ios": "^7.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^7.0.0"
+  }
+}

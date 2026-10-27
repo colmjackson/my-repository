@@ -5,9 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Weekly Money Planner</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Literata:opsz,wght@7..72,600;7..72,700&display=swap">
+<meta name="theme-color" content="#04434e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Money Planner">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Layout: one narrow column, read top to bottom like a paper form; the answer sits in a tinted panel at the top. */
 :root {
@@ -51,7 +54,8 @@ body {
 main {
   max-width: 38rem;
   margin: 0 auto;
-  padding-block: 1.5rem 4rem;
+  padding-top: max(1.5rem, calc(env(safe-area-inset-top, 0px) + .75rem));
+  padding-bottom: max(4rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   display: grid;
@@ -397,6 +401,11 @@ button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
   renderRows("weekly");
   renderRows("monthly");
   update();
+
+  // Offline support for the home screen web app. Inside the iPhone app the files are already on the device.
+  if ("serviceWorker" in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register("sw.js").catch(function () {});
+  }
 })();
 </script>
 </body>

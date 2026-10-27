@@ -17,3 +17,7 @@ No account, no name, no server. Figures are saved only in the browser on the dev
 ## Using it
 
 Open `index.html` in any browser. To give someone a link, turn on GitHub Pages for this repository (Settings → Pages → deploy from the main branch) and bookmark the address on their phone or tablet home screen.
+
+## iPhone app
+
+See `IOS.md` for the Mac steps to build the app (Capacitor) and for the no-fee home screen option.

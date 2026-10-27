@@ -1,0 +1,10 @@
+{
+  "appId": "com.colmjackson.weeklymoneyplanner",
+  "appName": "Money Planner",
+  "webDir": "www",
+  "ios": {
+    "contentInset": "never",
+    "backgroundColor": "#eaf1f2",
+    "scrollEnabled": true
+  }
+}
