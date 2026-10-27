@@ -4,7 +4,7 @@
   "webDir": "www",
   "ios": {
     "contentInset": "never",
-    "backgroundColor": "#121214",
+    "backgroundColor": "#e8e7e2",
     "scrollEnabled": true
   }
 }

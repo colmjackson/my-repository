@@ -5,8 +5,8 @@ The web page stays the source of truth. `npm run build` copies it into `www/`, a
 ## What is already in the repo
 
 - `capacitor.config.json`: app name "Money Planner", bundle ID `com.colmjackson.weeklymoneyplanner` (change it before step 3 if you want a different one).
-- Look: dark, rounded card style with LG red (#A50034) accents and the two key numbers pinned at the top like a calculator display. Uses the iPhone system font, so nothing is fetched from the internet and the app works with no signal. Switches to a light version when the phone is in light mode.
-- `resources/icon.png`: 1024 px app icon. Placeholder (white € on LG red). Swap in a better one any time and re-run step 2.
+- Look: warm grey pocket hardware style (Braun and Teenage Engineering inspired) with orange keys and an LCD readout and the two key numbers pinned at the top like a calculator display. Uses the iPhone system font, so nothing is fetched from the internet and the app works with no signal. Has a darker grey version for dark mode.
+- `resources/icon.png`: 1024 px app icon. Placeholder (white € on an orange knob). Swap in a better one any time and re-run step 2.
 - Safe area padding in `index.html` for the notch and home bar.
 - `manifest.webmanifest`, `sw.js`, `icons/`: home screen web app with offline support, used by the GitHub Pages version.
 - `scripts/`: build and setup scripts.

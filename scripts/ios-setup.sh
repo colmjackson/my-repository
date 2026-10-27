@@ -6,6 +6,6 @@ cd "$(dirname "$0")/.."
 npm install
 npm run build
 [ -d ios ] || npx cap add ios
-npx capacitor-assets generate --ios --iconBackgroundColor '#a50034' --assetPath resources
+npx capacitor-assets generate --ios --iconBackgroundColor '#e8e7e2' --assetPath resources
 npx cap sync ios
 echo "Done. Run: npm run ios:open"

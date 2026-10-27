@@ -1,5 +1,5 @@
 // Caches the app files so the planner opens with no signal. Bump CACHE when any listed file changes.
-var CACHE = "money-planner-v2";
+var CACHE = "money-planner-v3";
 var FILES = [
   "./", "index.html", "manifest.webmanifest",
   "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png"
