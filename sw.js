@@ -1,8 +1,7 @@
 // Caches the app files so the planner opens with no signal. Bump CACHE when any listed file changes.
-var CACHE = "money-planner-v1";
+var CACHE = "money-planner-v2";
 var FILES = [
-  "./", "index.html", "manifest.webmanifest", "fonts/fonts.css",
-  "fonts/AtkinsonHyperlegible-400.woff2", "fonts/AtkinsonHyperlegible-700.woff2", "fonts/Literata-600.woff2",
+  "./", "index.html", "manifest.webmanifest",
   "icons/apple-touch-icon.png", "icons/icon-192.png", "icons/icon-512.png"
 ];
 self.addEventListener("install", function (e) {

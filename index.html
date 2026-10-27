@@ -5,40 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Weekly Money Planner</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#04434e">
+<meta name="theme-color" content="#121214">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Money Planner">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
-<link rel="stylesheet" href="fonts/fonts.css">
 <style>
-/* Layout: one narrow column, read top to bottom like a paper form; the answer sits in a tinted panel at the top. */
+/* Calculator style: dark webOS-like surfaces, big rounded cards, LG red accents. The two key numbers stay pinned at the top. */
 :root {
-  --bg: #eaf1f2;
-  --paper: #ffffff;
-  --ink: #061215;
-  --muted: #1f3237;
-  --line: #5b7278;
-  --accent: #04434e;
+  --bg: #121214;
+  --card: #1f1f23;
+  --field: #2b2b31;
+  --ink: #ffffff;
+  --muted: #c9c9d1;
+  --line: #5a5a64;
+  --accent: #a50034;
   --accent-ink: #ffffff;
-  --panel: #cfe8eb;
-  --good: #0c4d24;
-  --warn: #842404;
-  --warn-bg: #fde3d4;
-  --display: "Literata", Georgia, "Times New Roman", serif;
-  --body: "Atkinson Hyperlegible", Verdana, Arial, sans-serif;
+  --accent-text: #ff6b93;
+  --good: #7ee0a3;
+  --warn: #ffb4a0;
+  --warn-bg: #4a1a14;
+  --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+  color-scheme: dark;
 }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #000b0d; --paper: #0b1a1e; --ink: #ffffff; --muted: #dbe7ea; --line: #8fa8ae;
-    --accent: #86e6f3; --accent-ink: #00262c; --panel: #08343b; --good: #93f3b6;
-    --warn: #ffc6a8; --warn-bg: #451b09; color-scheme: dark;
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #eeeef1; --card: #ffffff; --field: #f1f1f4; --ink: #15151a; --muted: #46464f; --line: #8a8a95;
+    --accent-text: #a50034; --good: #0c5a2a; --warn: #8a1f0a; --warn-bg: #fde3d9; color-scheme: light;
   }
-}
-:root[data-theme="dark"] {
-  --bg: #000b0d; --paper: #0b1a1e; --ink: #ffffff; --muted: #dbe7ea; --line: #8fa8ae;
-  --accent: #86e6f3; --accent-ink: #00262c; --panel: #08343b; --good: #93f3b6;
-  --warn: #ffc6a8; --warn-bg: #451b09; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; font-size: 112.5%; }
@@ -47,171 +41,141 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--body);
-  font-size: 1.2rem;
-  line-height: 1.6;
+  font-family: var(--font);
+  font-size: 1.1rem;
+  line-height: 1.5;
 }
 main {
-  max-width: 38rem;
+  max-width: 34rem;
   margin: 0 auto;
-  padding-top: max(1.5rem, calc(env(safe-area-inset-top, 0px) + .75rem));
-  padding-bottom: max(4rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));
-  padding-left: max(16px, env(safe-area-inset-left, 0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  display: grid;
-  gap: 1.75rem;
-}
-h1, h2 { font-family: var(--display); line-height: 1.2; text-wrap: balance; margin: 0; }
-h1 { font-size: 2.1rem; }
-h2 { font-size: 1.5rem; }
-p { margin: 0; }
-.intro { display: grid; gap: .5rem; color: var(--muted); }
-.private { font-size: 1.1rem; color: var(--ink); }
-
-/* The answer */
-.answer {
-  background: var(--panel);
-  border-radius: 14px;
-  padding: 1.5rem 1.25rem;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: max(3rem, calc(env(safe-area-inset-bottom, 0px) + 2rem));
+  padding-left: max(14px, env(safe-area-inset-left, 0px));
+  padding-right: max(14px, env(safe-area-inset-right, 0px));
   display: grid;
   gap: 1rem;
 }
-.big-label { font-size: 1.1rem; font-weight: 700; }
-.big-number {
-  font-family: var(--display);
-  font-size: clamp(2.6rem, 11vw, 3.6rem);
-  font-weight: 700;
-  line-height: 1;
-  color: var(--accent);
-  font-variant-numeric: tabular-nums;
+h1, h2 { line-height: 1.2; margin: 0; letter-spacing: -.01em; }
+h1 { font-size: 1.5rem; }
+h2 { font-size: 1.2rem; }
+p { margin: 0; }
+
+.top { display: flex; justify-content: space-between; align-items: center; gap: .75rem; padding-top: .9rem; flex-wrap: wrap; }
+.size { display: flex; gap: .4rem; }
+.size button { background: var(--card); color: var(--ink); border: 2px solid var(--line); padding: .25rem .8rem; min-height: 2.6rem; border-radius: 999px; }
+.size button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.size .bigger { font-size: 1.2em; }
+
+/* The answer: pinned while scrolling, like a calculator display */
+.display {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 2;
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 28px;
+  padding: 1.1rem 1.4rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: .25rem 1rem;
+  align-items: end;
+  box-shadow: 0 8px 24px rgba(0,0,0,.35);
 }
-.lines { display: grid; gap: .35rem; margin: 0; }
+.display.short { background: var(--warn-bg); color: var(--warn); box-shadow: 0 0 0 3px var(--warn), 0 8px 24px rgba(0,0,0,.35); }
+.display .label { font-size: .95rem; font-weight: 600; opacity: .95; }
+.display .num { font-size: clamp(2.2rem, 10vw, 3rem); font-weight: 700; line-height: 1.05; font-variant-numeric: tabular-nums; }
+.display .num.small { font-size: clamp(1.4rem, 6vw, 1.8rem); text-align: right; }
+.display .right { text-align: right; }
+
+.card { background: var(--card); border-radius: 28px; padding: 1.25rem; display: grid; gap: .9rem; }
+.lines { display: grid; gap: .3rem; margin: 0; }
 .lines div { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
 .lines dt { color: var(--muted); }
 .lines dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
-.lines .total { border-top: 3px solid var(--ink); padding-top: .4rem; }
-.status { font-weight: 700; border-radius: 10px; padding: .75rem 1rem; }
-.status.ok { color: var(--good); background: var(--paper); border: 2px solid var(--good); }
-.status.short { color: var(--warn); background: var(--warn-bg); border: 2px solid var(--warn); }
+.status { font-weight: 600; border-radius: 18px; padding: .7rem 1rem; }
+.status.ok { color: var(--good); background: var(--field); }
+.status.short { color: var(--warn); background: var(--warn-bg); }
 
-/* Form sections */
-section.part {
-  background: var(--paper);
-  border: 2px solid var(--line);
-  border-radius: 14px;
-  padding: 1.25rem;
-  display: grid;
-  gap: 1rem;
-}
-.hint { color: var(--muted); font-size: 1.1rem; }
-label { font-weight: 700; }
+.hint { color: var(--muted); font-size: 1rem; }
+label { font-weight: 600; }
 input {
   font: inherit;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   color: var(--ink);
-  background: var(--bg);
-  border: 3px solid var(--line);
-  border-radius: 10px;
-  padding: .6rem .75rem;
+  background: var(--field);
+  border: 2px solid transparent;
+  border-radius: 16px;
+  padding: .6rem .9rem;
   width: 100%;
-  min-height: 3.2rem;
+  min-height: 3.3rem;
 }
-input:focus { outline: 4px solid var(--accent); outline-offset: 2px; border-color: var(--accent); }
+input::placeholder { color: var(--muted); opacity: .7; }
+input:focus { outline: 3px solid var(--accent-text); outline-offset: 2px; }
 .money { position: relative; }
-.money span {
-  position: absolute; left: .8rem; top: 50%; transform: translateY(-50%);
-  font-weight: 700; color: var(--muted); pointer-events: none;
-}
+.money span { position: absolute; left: .9rem; top: 50%; transform: translateY(-50%); font-weight: 700; color: var(--muted); pointer-events: none; }
 .money input { padding-left: 2rem; font-variant-numeric: tabular-nums; }
 
-.rows { display: grid; gap: .75rem; }
-.row { display: grid; grid-template-columns: minmax(0, 1fr) 9rem 3.2rem; gap: .5rem; align-items: center; }
-.row-head { display: grid; grid-template-columns: minmax(0, 1fr) 9rem 3.2rem; gap: .5rem; color: var(--muted); font-size: 1.05rem; font-weight: 700; }
-/* Narrow screens: name on its own line, amount and remove button underneath */
+.rows { display: grid; gap: .6rem; }
+.row { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem 3.3rem; gap: .5rem; align-items: center; }
+.row-head { display: grid; grid-template-columns: minmax(0, 1fr) 8.5rem 3.3rem; gap: .5rem; color: var(--muted); font-size: .95rem; font-weight: 600; }
 @media (max-width: 34rem) {
-  .row { grid-template-columns: minmax(0, 1fr) 3.2rem; padding-bottom: .75rem; border-bottom: 2px solid var(--line); }
+  .row { grid-template-columns: minmax(0, 1fr) 3.3rem; padding-bottom: .7rem; border-bottom: 1px solid var(--line); }
   .row > input { grid-column: 1 / -1; }
   .row-head { display: none; }
 }
 .subtotal { display: flex; justify-content: space-between; font-weight: 700; font-variant-numeric: tabular-nums; flex-wrap: wrap; gap: .5rem; }
 
-button {
-  font: inherit;
-  font-weight: 700;
-  border-radius: 10px;
-  min-height: 3.2rem;
-  cursor: pointer;
-}
-button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
-.add {
-  background: var(--accent);
-  color: var(--accent-ink);
-  border: 0;
-  padding: .6rem 1.1rem;
-  justify-self: start;
-}
-.remove {
-  background: transparent;
-  color: var(--ink);
-  border: 3px solid var(--line);
-  font-size: 1.4rem;
-  line-height: 1;
-  padding: 0;
-}
-.remove:hover { color: var(--warn); border-color: var(--warn); }
-.quiet {
-  background: transparent;
-  color: var(--ink);
-  border: 3px solid var(--line);
-  padding: .6rem 1.1rem;
-}
-.reset { display: grid; gap: .75rem; justify-items: start; }
-.confirm { display: flex; flex-wrap: wrap; gap: .75rem; align-items: center; }
-.confirm .yes { background: var(--warn); color: var(--paper); border: 0; padding: .6rem 1.1rem; }
-.saved { color: var(--muted); font-size: 1.05rem; }
-.size { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
-.size span { font-weight: 700; color: var(--ink); }
-.size button { background: var(--paper); color: var(--ink); border: 3px solid var(--line); padding: .4rem 1rem; }
-.size button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.size .bigger { font-size: 1.25em; }
+button { font: inherit; font-weight: 600; border-radius: 999px; min-height: 3.3rem; cursor: pointer; }
+button:focus-visible { outline: 3px solid var(--accent-text); outline-offset: 2px; }
+.add { background: var(--accent); color: var(--accent-ink); border: 0; padding: .6rem 1.4rem; justify-self: start; }
+.remove { background: var(--field); color: var(--ink); border: 0; font-size: 1.4rem; line-height: 1; padding: 0; }
+.remove:hover { color: var(--warn); }
+.quiet { background: transparent; color: var(--ink); border: 2px solid var(--line); padding: .6rem 1.3rem; }
+.reset { display: grid; gap: .7rem; justify-items: start; padding: 0 .5rem; }
+.confirm { display: flex; flex-wrap: wrap; gap: .7rem; align-items: center; }
+.confirm .yes { background: var(--warn); color: #1a0a06; border: 0; padding: .6rem 1.3rem; }
+.saved { color: var(--muted); font-size: .95rem; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <main>
-  <header class="intro">
-    <h1>Weekly Money Planner</h1>
-    <p>Type in what comes in and what goes out. The planner works out how much to put aside each week so every bill is covered.</p>
-    <p class="private">No name, no account, no sign in. Your figures stay on this device only.</p>
+  <header class="top">
+    <h1>Money Planner</h1>
     <div class="size" role="group" aria-label="Text size">
-      <span>Text size</span>
-      <button type="button" id="sizeLarge" aria-pressed="true">Large</button>
-      <button type="button" id="sizeXL" class="bigger" aria-pressed="false">Extra large</button>
+      <button type="button" id="sizeLarge" aria-pressed="true" aria-label="Large text">Aa</button>
+      <button type="button" id="sizeXL" class="bigger" aria-pressed="false" aria-label="Extra large text">Aa</button>
     </div>
   </header>
 
-  <section class="answer" aria-live="polite">
+  <section class="display" id="display" aria-live="polite">
     <div>
-      <p class="big-label">Put aside each week</p>
-      <p class="big-number" id="setAside">€0.00</p>
+      <p class="label">Put aside each week</p>
+      <p class="num" id="setAside">€0.00</p>
     </div>
+    <div class="right">
+      <p class="label">Left to spend</p>
+      <p class="num small" id="outLeft">€0.00</p>
+    </div>
+  </section>
+
+  <section class="card" aria-label="Breakdown">
     <dl class="lines">
       <div><dt>Coming in each week</dt><dd id="outIncome">€0.00</dd></div>
       <div><dt>Weekly bills</dt><dd id="outWeekly">€0.00</dd></div>
       <div><dt>Monthly bills, as a weekly amount</dt><dd id="outMonthlyAsWeek">€0.00</dd></div>
-      <div class="total"><dt>Left to spend each week</dt><dd id="outLeft">€0.00</dd></div>
     </dl>
-    <p class="status ok" id="status">Start by typing your weekly pay or pension below.</p>
+    <p class="status ok" id="status">Type your weekly pay or pension below.</p>
   </section>
 
-  <section class="part" aria-labelledby="h-income">
+  <section class="card" aria-labelledby="h-income">
     <h2 id="h-income">1. Money coming in</h2>
     <p class="hint">If you get more than one payment (for example a pension and a part time wage), add them together.</p>
     <label for="income">Weekly pay or pension</label>
     <div class="money"><span>€</span><input id="income" inputmode="decimal" autocomplete="off" placeholder="0.00"></div>
   </section>
 
-  <section class="part" aria-labelledby="h-weekly">
+  <section class="card" aria-labelledby="h-weekly">
     <h2 id="h-weekly">2. Bills you pay every week</h2>
     <p class="hint">Things like food shopping, travel or a weekly payment plan.</p>
     <div class="row-head" aria-hidden="true"><span>What it is</span><span>Amount</span><span></span></div>
@@ -220,7 +184,7 @@ button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
     <p class="subtotal"><span>Total each week</span><span id="weeklyTotal">€0.00</span></p>
   </section>
 
-  <section class="part" aria-labelledby="h-monthly">
+  <section class="card" aria-labelledby="h-monthly">
     <h2 id="h-monthly">3. Bills you pay every month</h2>
     <p class="hint">Things like rent, electricity, phone, TV or insurance. If a bill comes every two months or once a year, work out what it costs per month and put that here.</p>
     <div class="row-head" aria-hidden="true"><span>What it is</span><span>Amount</span><span></span></div>
@@ -231,7 +195,7 @@ button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
   </section>
 
   <section class="reset">
-    <p class="saved" id="saved">Your figures save by themselves as you type.</p>
+    <p class="saved" id="saved">Saved on this device as you type. Nothing is sent anywhere.</p>
     <button type="button" class="quiet" id="resetBtn">Clear everything and start again</button>
     <div class="confirm" id="confirmBox" hidden>
       <span>This removes all your figures. Are you sure?</span>
@@ -347,10 +311,11 @@ button:focus-visible { outline: 4px solid var(--accent); outline-offset: 2px; }
     document.getElementById("weeklyTotal").textContent = money(weekly);
     document.getElementById("monthlyTotal").textContent = money(monthly);
 
+    document.getElementById("display").classList.toggle("short", income > 0 && left < 0);
     var status = document.getElementById("status");
     if (!income) {
       status.className = "status ok";
-      status.textContent = "Start by typing your weekly pay or pension below.";
+      status.textContent = "Type your weekly pay or pension below.";
     } else if (left < 0) {
       status.className = "status short";
       status.textContent = "Your bills come to " + money(-left) +
