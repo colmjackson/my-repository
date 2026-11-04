@@ -11,6 +11,8 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 - `templates/`: the finished pages, one for every trade in every style, at `templates/<trade>/<style>/index.html`. Open `templates/index.html` for a gallery that links to all 32. Each page is one file with no external requests. They use a fictional business (for example "Sample Joinery") so they also work as demos to show prospects.
 - `build/`: the sources and the generator that produces `templates/`. See "Changing the templates".
 - `brief/client-brief.pdf`: a two page fillable form to send to a new client. It collects their name, business, contact details, areas, a short intro, what they want the page to do, the jobs they want more of, which of the four looks they prefer (with a small preview of each), a caption for each of one or two photos, and permission to use their details and photos. `brief/make_brief.py` rebuilds it (`pip install reportlab pypdf`).
+- `planning/`: the simulation plan and the year one cost model.
+- `HANDOFF.md`: where the project stands, decisions made, what is unverified and the next steps. Start here when picking the project up cold.
 
 **Trades:** plumber, electrician, carpenter and joiner, painter and decorator, tiler, landscaper and gardener, roofer, builder.
 
