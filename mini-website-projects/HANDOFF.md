@@ -1,6 +1,6 @@
 # Mini website projects: handoff
 
-Working name for the DayRate extension that gives tradespeople a one page website. The folder and README still say "small business sites". Nothing has been renamed, to keep the open pull request stable.
+The DayRate extension that gives tradespeople a one page website. The folder was renamed from `small-business-sites/` to `mini-website-projects/`. The branch name and the PDF brief's header and footer still use the old name.
 
 Written 4 November 2026, end of day one.
 
@@ -12,8 +12,8 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 
 | | |
 | --- | --- |
-| Folder | `small-business-sites/` (the Weekly Money Planner at the repository root is untouched) |
-| Branch | `claude/small-business-sites`, based on `master` |
+| Folder | `mini-website-projects/` (the Weekly Money Planner at the repository root is untouched) |
+| Branch | `claude/small-business-sites` (old name kept, because renaming a branch with an open pull request would disrupt it), based on `master` |
 | Pull request | [#2](https://github.com/colmjackson/my-repository/pull/2), open, no reviews, no comments, mergeable. The repository has no CI workflows. |
 | Contents | `templates/` 32 pages and a gallery, `build/` generator and sources, `brief/` the PDF form and its script, `planning/` simulation plan and cost model, `README.md` how to use it all |
 
@@ -62,7 +62,7 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 - Does DayRate already bill customers? Is this solo, as a sole trader or a company? How many clients in year one?
 - Do client sites live in this repository or in their own?
 - Whether the brief should also ask for a domain name.
-- Keep the folder name or rename it to match "mini website projects".
+- Whether the client facing PDF should keep saying "DayRate small business sites" in its header and footer, or use a new name. Changing it means editing `make_brief.py` and rebuilding the PDF.
 
 ## Next steps, in order
 
