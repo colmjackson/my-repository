@@ -6,11 +6,15 @@
 
 Needs reportlab and pypdf (pip install reportlab pypdf).
 
-The PDF has real form fields (text boxes and tick boxes), so it can be filled in on a
-phone or computer. Photos cannot be dropped into a PDF on a phone, so the form asks for
-them to be attached when it is sent back, with a caption for each in the form.
+The PDF has real form fields (text boxes, tick boxes and one choice of look), so it can be
+filled in on a phone or computer. Photos cannot be dropped into a PDF on a phone, so the form
+asks for them to be attached when it is sent back, with a caption for each in the form.
+
+The previews in the "Your look" question are drawn from ../build/styles/*.json, the same
+files that build the website templates, so the form always matches the real pages.
 """
 import argparse
+import json
 import os
 
 from reportlab.lib.colors import HexColor, white
@@ -33,6 +37,19 @@ CONTENT = RIGHT - LEFT
 GAP = 18
 COL = (CONTENT - GAP) / 2
 COL2 = LEFT + COL + GAP
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+STYLE_ORDER = ["classic", "bold", "clean", "warm"]
+
+
+def load_styles():
+    out = []
+    for name in STYLE_ORDER:
+        with open(os.path.join(HERE, "..", "build", "styles", f"{name}.json"), encoding="utf-8") as fh:
+            style = json.load(fh)
+        style["slug"] = name
+        out.append(style)
+    return out
 
 
 def build(path, return_to):
@@ -103,9 +120,54 @@ def build(path, return_to):
         c.drawString(LEFT, 22, "DayRate small business sites")
         c.drawRightString(RIGHT, 22, f"Page {n} of 2")
 
+    def px(value):
+        """CSS corner size to PDF points, scaled down to suit a small preview."""
+        return float(value.replace("px", "")) / 4
+
+    def preview(style, x, top, w, h):
+        """A small picture of the page in this style: header and button, then a row of cards."""
+        light, shape = style["light"], style["shape"]
+        r = min(px(shape["r_card"]), 4)
+        base = y(top + h)
+        c.saveState()
+        clip = c.beginPath()
+        clip.roundRect(x, base, w, h, r)
+        c.clipPath(clip, stroke=0, fill=0)
+        c.setFillColor(HexColor(light["bg"]))
+        c.rect(x, base, w, h, stroke=0, fill=1)
+        hero_h = h * 0.66
+        c.setFillColor(HexColor(light["brand"]))
+        c.rect(x, base + h - hero_h, w, hero_h, stroke=0, fill=1)
+        # headline sample in the style's heading feel
+        serif = "Georgia" in shape["h_font"]
+        sample = "Your Name"
+        if shape["h_transform"] == "uppercase":
+            sample = sample.upper()
+        c.setFillColor(HexColor(light["brand_ink"]))
+        c.setFont("Times-Bold" if serif else "Helvetica-Bold", 8.5)
+        c.drawString(x + 8, base + h - 14, sample)
+        # call button in the accent colour, with this style's corner shape
+        bw, bh = 38, 10
+        radius = bh / 2 if shape["r_btn"] == "999px" else min(px(shape["r_btn"]), 3)
+        c.setFillColor(HexColor(light["accent"]))
+        c.roundRect(x + 8, base + h - hero_h + 8, bw, bh, radius, stroke=0, fill=1)
+        # row of three cards below
+        n, gap, pad = 3, 4, 8
+        cw = (w - 2 * pad - (n - 1) * gap) / n
+        ch = h - hero_h - 10
+        c.setFillColor(HexColor(light["paper"]))
+        c.setStrokeColor(HexColor(light["line"]))
+        c.setLineWidth(0.8)
+        for i in range(n):
+            c.roundRect(x + pad + i * (cw + gap), base + 4, cw, ch, min(px(shape["r_card"]), 2.5), stroke=1, fill=1)
+        c.restoreState()
+        c.setStrokeColor(LINE)
+        c.setLineWidth(1)
+        c.roundRect(x, base, w, h, r, stroke=1, fill=0)
+
     # ---------------------------------------------------------------- page 1
     band(84, "DAYRATE  |  SMALL BUSINESS SITES", "Your new website: quick brief")
-    bottom = para(
+    para(
         LEFT, 116,
         "Fill in what you can. Short answers are fine. Send this back with one or two photos "
         "and we will draft your page. Easier on a phone? Just answer the same questions in a "
@@ -138,17 +200,37 @@ def build(path, return_to):
     c.showPage()
 
     # ---------------------------------------------------------------- page 2
-    band(60, "DAYRATE  |  SMALL BUSINESS SITES", "Photos and final details")
+    band(60, "DAYRATE  |  SMALL BUSINESS SITES", "Your look, photos and final details")
 
-    heading(4, "One or two photos", 106)
+    # 4. look
+    heading(4, "Your look", 104)
+    text(LEFT, 128, "Tick the look you like best, or leave them blank and we will choose one to suit your trade.",
+         size=10.5, color=MUTED)
+    n, gap = 4, 12
+    cw = (CONTENT - (n - 1) * gap) / n
+    card_top, mock_h = 138, 60
+    for i, style in enumerate(load_styles()):
+        x = LEFT + i * (cw + gap)
+        preview(style, x, card_top, cw, mock_h)
+        form.radio(
+            name="look", tooltip=f"{style['label']}: {style['tagline']}", value=style["slug"], selected=False,
+            x=x, y=y(card_top + mock_h + 24), size=16, buttonStyle="circle", shape="circle",
+            borderColor=LINE, fillColor=FIELD, textColor=INK, forceBorder=True, borderWidth=1.5,
+            fieldFlags="radio",  # not required, and a second tap clears the choice
+        )
+        text(x + 22, card_top + mock_h + 17, style["label"], "Helvetica-Bold", 11.5, INK)
+        text(x + 22, card_top + mock_h + 30, style["tagline"], "Helvetica", 9.5, MUTED)
+
+    # 5. photos
+    heading(5, "One or two photos", 266)
     para(
-        LEFT, 132,
+        LEFT, 290,
         "A clear photo of you, your van or a finished job works best. Take it in daylight with "
         "the phone held sideways. Attach the photos when you send this form back, and say in the "
         "boxes below what each one shows.",
-        CONTENT, size=11.5,
+        CONTENT, size=11.5, leading=15,
     )
-    box_top, box_h = 196, 130
+    box_top, box_h = 340, 64
     for i, x in enumerate((LEFT, COL2), start=1):
         c.setFillColor(PANEL)
         c.setStrokeColor(LINE)
@@ -157,26 +239,28 @@ def build(path, return_to):
         c.roundRect(x, y(box_top + box_h), COL, box_h, 8, stroke=1, fill=1)
         c.setDash()
         c.setFillColor(NAVY)
-        c.setFont("Helvetica-Bold", 16)
-        c.drawCentredString(x + COL / 2, y(box_top + 58), f"Photo {i}")
-        c.setFont("Helvetica", 10.5)
+        c.setFont("Helvetica-Bold", 14)
+        c.drawCentredString(x + COL / 2, y(box_top + 25), f"Photo {i}")
+        c.setFont("Helvetica", 10)
         c.setFillColor(MUTED)
-        c.drawCentredString(x + COL / 2, y(box_top + 78), "Attach it with this form")
-        c.drawCentredString(x + COL / 2, y(box_top + 93), f"and name it photo{i}")
-        labelled(f"photo{i}_caption", f"What does photo {i} show?", x, box_top + box_h + 24, COL, 52, True)
-    tick("has_logo", "I also have a logo and will attach it", LEFT, 436)
+        c.drawCentredString(x + COL / 2, y(box_top + 41), "Attach it with this form")
+        c.drawCentredString(x + COL / 2, y(box_top + 54), f"and name it photo{i}")
+        labelled(f"photo{i}_caption", f"What does photo {i} show?", x, box_top + box_h + 22, COL, 42, True)
+    tick("has_logo", "I also have a logo and will attach it", LEFT, 498)
 
-    heading(5, "Anything else we should know", 484)
-    text(LEFT, 508, "Opening hours, emergency call outs, registrations or insurance you can show, "
+    # 6. anything else
+    heading(6, "Anything else we should know", 534)
+    text(LEFT, 558, "Opening hours, emergency call outs, registrations or insurance you can show, "
          "things to leave out.", size=10.5, color=MUTED)
-    field("other", LEFT, 518, CONTENT, 88, "Anything else we should know", multiline=True)
+    field("other", LEFT, 568, CONTENT, 52, "Anything else we should know", multiline=True)
 
-    heading(6, "Your permission", 646)
-    tick("permission", "", LEFT, 676)
+    # 7. permission
+    heading(7, "Your permission", 650)
+    tick("permission", "", LEFT, 678)
     para(
-        LEFT + 24, 676,
+        LEFT + 24, 678,
         "You can use my details and photos on my website. I took the photos or I am allowed to use them.",
-        CONTENT - 24, size=11.5,
+        CONTENT - 24, size=11.5, leading=15,
     )
 
     # send back panel
@@ -192,14 +276,32 @@ def build(path, return_to):
     footer(2)
     c.showPage()
     c.save()
-    register_tick_font(path)
+    finish_pdf(path)
 
 
-def register_tick_font(path):
-    """reportlab omits ZapfDingbats from the form's font table. Without it some viewers cannot
-    redraw the tick when a box is ticked, so add it."""
+def circle(cx, cy, r):
+    k = 0.5523 * r
+    return (f"{cx + r:.3f} {cy:.3f} m "
+            f"{cx + r:.3f} {cy + k:.3f} {cx + k:.3f} {cy + r:.3f} {cx:.3f} {cy + r:.3f} c "
+            f"{cx - k:.3f} {cy + r:.3f} {cx - r:.3f} {cy + k:.3f} {cx - r:.3f} {cy:.3f} c "
+            f"{cx - r:.3f} {cy - k:.3f} {cx - k:.3f} {cy - r:.3f} {cx:.3f} {cy - r:.3f} c "
+            f"{cx + k:.3f} {cy - r:.3f} {cx + r:.3f} {cy - k:.3f} {cx + r:.3f} {cy:.3f} c ")
+
+
+def rgb(colour):
+    return f"{colour.red:.4f} {colour.green:.4f} {colour.blue:.4f}"
+
+
+def finish_pdf(path):
+    """Two fixes to what reportlab writes.
+
+    1. It omits ZapfDingbats from the form's font table. Without it some viewers cannot redraw
+       the tick when a box is ticked, so add it.
+    2. Its radio button appearance is sized for a smaller box than the one it sits in, so the
+       circle is drawn off centre. Replace it with a centred circle, plus a dot when chosen.
+    """
     from pypdf import PdfReader, PdfWriter
-    from pypdf.generic import DictionaryObject, NameObject
+    from pypdf.generic import ArrayObject, DecodedStreamObject, DictionaryObject, FloatObject, NameObject
 
     writer = PdfWriter(clone_from=PdfReader(path))
     fonts = writer._root_object["/AcroForm"]["/DR"]["/Font"]
@@ -208,15 +310,41 @@ def register_tick_font(path):
         NameObject("/Subtype"): NameObject("/Type1"),
         NameObject("/BaseFont"): NameObject("/ZapfDingbats"),
     }))
+
+    def form_xobject(content):
+        stream = DecodedStreamObject()
+        stream.set_data(content.encode("ascii"))
+        stream.update({
+            NameObject("/Type"): NameObject("/XObject"),
+            NameObject("/Subtype"): NameObject("/Form"),
+            NameObject("/BBox"): ArrayObject([FloatObject(v) for v in (0, 0, 16, 16)]),
+            NameObject("/Resources"): DictionaryObject(),
+        })
+        return writer._add_object(stream)
+
+    off = (f"q {rgb(FIELD)} rg {circle(8, 8, 7.25)} f Q "
+           f"q {rgb(LINE)} RG 1.5 w {circle(8, 8, 7.25)} S Q")
+    on = off + f" q {rgb(INK)} rg {circle(8, 8, 3.6)} f Q"
+    off_ref, on_ref = form_xobject(off), form_xobject(on)
+
+    for page in writer.pages:
+        for ref in page.get("/Annots", []):
+            widget = ref.get_object()
+            parent = widget.get("/Parent")
+            if parent is None or parent.get_object().get("/T") != "look":
+                continue
+            states = [k for k in widget["/AP"]["/N"].keys() if k != "/Off"]
+            widget[NameObject("/AP")] = DictionaryObject({
+                NameObject("/N"): DictionaryObject({NameObject("/Off"): off_ref, NameObject(states[0]): on_ref}),
+            })
     with open(path, "wb") as fh:
         writer.write(fh)
 
 
 if __name__ == "__main__":
-    here = os.path.dirname(os.path.abspath(__file__))
     ap = argparse.ArgumentParser()
     ap.add_argument("--return-to", default="", help="email or WhatsApp number printed on the form")
-    ap.add_argument("--out", default=os.path.join(here, "client-brief.pdf"))
+    ap.add_argument("--out", default=os.path.join(HERE, "client-brief.pdf"))
     a = ap.parse_args()
     build(a.out, a.return_to.strip())
     print("wrote", a.out)

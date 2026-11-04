@@ -1,6 +1,7 @@
 {
   "label": "Clean",
   "blurb": "Light, airy and modern with a teal accent and rounded buttons. Suits a tidy, premium feel.",
+  "tagline": "Light and modern",
   "shape": {
     "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
     "h_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",

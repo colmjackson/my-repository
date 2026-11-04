@@ -1,6 +1,7 @@
 {
   "label": "Warm",
   "blurb": "Cream and forest green with serif headings. Friendly, like a family firm that has been around for years.",
+  "tagline": "Cream and green",
   "shape": {
     "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
     "h_font": "Georgia, \"Times New Roman\", serif",

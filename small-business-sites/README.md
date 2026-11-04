@@ -10,7 +10,7 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 
 - `templates/`: the finished pages, one for every trade in every style, at `templates/<trade>/<style>/index.html`. Open `templates/index.html` for a gallery that links to all 32. Each page is one file with no external requests. They use a fictional business (for example "Sample Joinery") so they also work as demos to show prospects.
 - `build/`: the sources and the generator that produces `templates/`. See "Changing the templates".
-- `brief/client-brief.pdf`: a two page fillable form to send to a new client. It collects their name, business, contact details, areas, a short intro, what they want the page to do, the jobs they want more of, a caption for each of one or two photos, and permission to use their details and photos. `brief/make_brief.py` rebuilds it (`pip install reportlab pypdf`).
+- `brief/client-brief.pdf`: a two page fillable form to send to a new client. It collects their name, business, contact details, areas, a short intro, what they want the page to do, the jobs they want more of, which of the four looks they prefer (with a small preview of each), a caption for each of one or two photos, and permission to use their details and photos. `brief/make_brief.py` rebuilds it (`pip install reportlab pypdf`).
 
 **Trades:** plumber, electrician, carpenter and joiner, painter and decorator, tiler, landscaper and gardener, roofer, builder.
 
@@ -25,7 +25,7 @@ All four follow the phone's light or dark setting, and every colour pair in ever
 
 ## Choosing a style with a client
 
-Send them the gallery links for their trade, or open two or three on your phone together. Each style is a separate page, so they can compare them in a few seconds. Note their choice with the rest of their details.
+The brief asks the client to tick one of the four looks, with a small preview of each. The previews are only a rough picture, so for a client who wants to see more, send the links to their trade's pages from the gallery or open two or three on your phone together. If they leave the question blank, pick the style that suits their trade and show them the result. The previews are drawn from `build/styles/*.json`, so rebuild the brief after changing a style.
 
 ## Sending the brief
 
@@ -84,6 +84,5 @@ The output is static files, so any static host works. GitHub Pages serves the te
 ## Not decided yet
 
 - The DayRate link in the footer is `#` until the address is settled.
-- Whether the brief should ask the client to pick a style.
 - Pricing and how clients pay.
 - Whether each client site lives in this repository or in its own.
