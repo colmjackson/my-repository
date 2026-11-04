@@ -25,6 +25,8 @@ Purpose: replace guessed hours with measured minutes, and find where the process
 | 7 Handover | Message listing what they own, how to ask for changes, the renewal date and the price. | Minutes. |
 | 8 A year later, on paper | A change request in month 6, a domain renewal in month 12, a client who stops replying. | Expected minutes for each. |
 
+Two clocks. The cost model counts your hours, not Claude's. Where Claude does the building, its elapsed time is not your time. Record your own minutes at each stage (reading, deciding, replying to the client) in one column, and Claude's elapsed time and number of turns in another. Your minutes feed the cost model. Claude's elapsed time and turns show how much Claude usage each client takes, which the model does not yet include.
+
 Outputs: a time log, a list of broken steps, and the cost model below with measured hours in place of guesses.
 
 ### Decisions needed
