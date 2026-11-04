@@ -10,6 +10,15 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 
 - `template/index.html`: the plumber landing page. One file, no build step, no dependencies, no external requests. It uses a fictional business ("Sample Plumbing & Heating") so it also works as a demo to show prospects.
 - `template-electrician/index.html`: the same page for electricians ("Sample Electrical"). Only the text and the structured data type differ from the plumber version; layout, styles and form script are identical.
+- `brief/client-brief.pdf`: a two page fillable form to send to a new client. It collects their name, business, contact details, areas, a short intro, what they want the page to do, the jobs they want more of, a caption for each of one or two photos, and permission to use their details and photos. `brief/make_brief.py` rebuilds it (`pip install reportlab pypdf`).
+
+## Sending the brief
+
+1. Open `brief/client-brief.pdf`, type where you want it sent back into the box on page 2 and save. Or rebuild it with `python3 brief/make_brief.py --return-to "your email or WhatsApp number"`.
+2. Send it to the client by WhatsApp or email.
+3. They fill it in and send it back with one or two photos attached. Photos cannot be dropped into a PDF on a phone, so they travel alongside it, named `photo1` and `photo2` to match the captions in the form.
+
+Many tradespeople will find a PDF awkward on a phone. The form says they can answer the same questions in a WhatsApp message instead, so take either.
 
 ## Making a site for a client
 
@@ -23,6 +32,8 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 4. Open it on a phone before sending it to the client.
 
 ## What to collect from the tradesperson
+
+The brief covers most of this. The domain name is not on it, so ask separately.
 
 - Business name and trade
 - Phone number, WhatsApp number (if different), email
