@@ -8,17 +8,18 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 
 ## What is here
 
-- `template/index.html`: the landing page. One file, no build step, no dependencies, no external requests. It uses a fictional business ("Sample Plumbing & Heating") so it also works as a demo to show prospects.
+- `template/index.html`: the plumber landing page. One file, no build step, no dependencies, no external requests. It uses a fictional business ("Sample Plumbing & Heating") so it also works as a demo to show prospects.
+- `template-electrician/index.html`: the same page for electricians ("Sample Electrical"). Only the text and the structured data type differ from the plumber version; layout, styles and form script are identical.
 
 ## Making a site for a client
 
-1. Copy `template/` to `sites/<client-name>/`.
+1. Copy the closest trade template (`template/` or `template-electrician/`) to `sites/<client-name>/`.
 2. Replace the sample content. Search for these strings to find everything:
-   - `Sample Plumbing`, `Sample Town`, `Example Village`, `Placeholder Bridge`
+   - `Sample Plumbing` or `Sample Electrical`, `Sample Town`, `Example Village`, `Placeholder Bridge`
    - `087 000 0000` and `353870000000` (phone, `tel:` links, WhatsApp links)
    - `hello@example.com` (email, appears in the page, the form script and the structured data)
    - `<!-- EDIT` comments, which mark every judgement call
-3. Change the trade in the page title, description, headline, service cards and the `"@type"` in the structured data (`Plumber`, `Electrician`, `HousePainter`, `GeneralContractor` and so on).
+3. For a trade with no template yet, change the trade in the page title, description, headline, service cards, the "how it works" text and the `"@type"` in the structured data (`HousePainter`, `GeneralContractor` and so on).
 4. Open it on a phone before sending it to the client.
 
 ## What to collect from the tradesperson
