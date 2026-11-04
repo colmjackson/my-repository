@@ -1,0 +1,25 @@
+{
+  "label": "Electrician",
+  "business": "Sample Electrical",
+  "schema_type": "Electrician",
+  "headline": "Electrical work done safely, tested and tidied up after.",
+  "lead": "Faults, fuse boards, rewires and lighting. Call or message for a straight answer and a clear price.",
+  "meta_services": "Faults, fuse boards, rewires and lighting.",
+  "trust": ["Fully insured", "Free quotes", "Certificate on completion", "Calls returned the same day"],
+  "services": [
+    ["Faults and tripping circuits", "Power cuts, tripping switches and dead sockets traced and fixed."],
+    ["Fuse board upgrades", "Old fuse boards replaced with a modern, safe one."],
+    ["Rewires and extra sockets", "Full or partial rewires, new sockets and extensions."],
+    ["Lighting", "Indoor, outdoor and security lighting, including LED upgrades."],
+    ["EV charger installation", "A home charge point fitted and tested."],
+    ["Safety checks and certificates", "Inspections and the paperwork for buyers, sellers and landlords."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us what is wrong. A photo of your fuse board helps."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished on the day we agree, tested and cleaned up."]
+  ],
+  "credentials_hint": "real registrations only, for example RECI or Safe Electric, with the registration number. Delete the list if none apply.",
+  "trade_note": "Certificates and safety checks: only claim what the business is registered to issue.",
+  "emergency": "Emergency call outs: edit or delete this line depending on whether the business offers them."
+}

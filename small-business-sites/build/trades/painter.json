@@ -1,0 +1,25 @@
+{
+  "label": "Painter and decorator",
+  "business": "Sample Decorating",
+  "schema_type": "HousePainter",
+  "headline": "Painting and decorating with a sharp, clean finish.",
+  "lead": "Interiors, exteriors, woodwork and wallpaper. Call or message for a straight answer and a clear price.",
+  "meta_services": "Interior and exterior painting, wallpaper and repairs.",
+  "trust": ["Fully insured", "Free quotes", "Floors and furniture protected", "Calls returned the same day"],
+  "services": [
+    ["Interior painting", "Walls, ceilings and woodwork, prepared properly before any paint goes on."],
+    ["Exterior painting", "Houses, fascias, gates and fences in paint suited to the weather."],
+    ["Wallpapering", "Hanging and stripping, from feature walls to whole rooms."],
+    ["Doors, skirting and kitchens", "A smooth finish on doors, skirting boards and kitchen units."],
+    ["Filling and repairs", "Cracks, holes and marks sorted before painting starts."],
+    ["Rentals and commercial", "Landlord refreshes, shops and offices with minimal disruption."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us which rooms or areas. Photos help."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished to the timetable we agree, with floors and furniture left clean."]
+  ],
+  "credentials_hint": "real qualifications only, for example a painting and decorating apprenticeship certificate. Delete the list if none apply.",
+  "trade_note": null,
+  "emergency": null
+}
