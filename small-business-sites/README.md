@@ -79,7 +79,9 @@ The brief covers most of this. The domain name is not on it, so ask separately.
 
 ## Hosting
 
-The output is static files, so any static host works. GitHub Pages serves the templates from `/small-business-sites/templates/` with no setup. For a client on their own domain, point the domain at a static host and set the canonical link in `index.html`.
+The output is static files, so any static host works. GitHub Pages serves the templates from `/small-business-sites/templates/` with no setup, which is fine for demos. Do not host paying clients there: GitHub's Pages terms say it is not allowed as a free service to run your online business. Use a host whose free plan allows commercial sites (Cloudflare Pages appears to, but confirm its terms). For a client on their own domain, point the domain at that host and set the canonical link in `index.html`.
+
+Planning notes, including the year one cost model, are in `planning/simulation-and-costs.md`.
 
 ## Not decided yet
 
