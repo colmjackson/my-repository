@@ -6,7 +6,7 @@ Written 4 November 2026, end of day one.
 
 ## What it is
 
-A set of mobile first landing page templates for tradespeople (eight trades, four looks each), a fillable PDF brief to collect a new client's details, and notes on running it as a small service. The page gives a customer what they need on a phone: what the tradesperson does, where they work, and call and WhatsApp buttons that stay on screen.
+A set of mobile first landing page templates for tradespeople (nine trades, four looks each), a fillable PDF brief to collect a new client's details, and notes on running it as a small service. The page gives a customer what they need on a phone: what the tradesperson does, where they work, and call and WhatsApp buttons that stay on screen.
 
 ## Where things are
 
@@ -15,7 +15,7 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 | Folder | `mini-website-projects/` (the Weekly Money Planner at the repository root is untouched) |
 | Branch | `claude/small-business-sites` (old name kept, because renaming a branch with an open pull request would disrupt it), based on `master` |
 | Pull request | [#2](https://github.com/colmjackson/my-repository/pull/2), open, no reviews, no comments, mergeable. The repository has no CI workflows. |
-| Contents | `templates/` 32 pages and a gallery, `build/` generator and sources, `brief/` the PDF form and its script, `planning/` simulation plan and cost model, `README.md` how to use it all |
+| Contents | `templates/` 36 pages and a gallery, `build/` generator and sources, `brief/` the PDF form and its script, `planning/` simulation plan and cost model, `README.md` how to use it all |
 
 ## How it works
 
@@ -36,7 +36,7 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 
 ## Decisions made, and why
 
-1. **Generator, not copies.** Eight trades by four styles would be over 30 near identical 300 line files. The generated Classic plumber and electrician pages read exactly the same as the hand written versions they replaced.
+1. **Generator, not copies.** Nine trades by four styles would be 36 near identical 300 line files. The generated Classic plumber and electrician pages read exactly the same as the hand written versions they replaced.
 2. **Four styles for every trade, so a client can choose.** Classic (navy and amber), Bold (black and yellow), Clean (pale teal), Warm (cream and green).
 3. **Photos travel beside the PDF.** A PDF on a phone cannot take an image. The form asks the client to attach photos named `photo1` and `photo2` and caption them in the form. The form also says a WhatsApp message with the same answers is fine.
 4. **Leaving the look blank is allowed.** We pick one to suit the trade.
@@ -47,8 +47,9 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 ## Not verified
 
 - The PDF has not been opened in Acrobat or on an iPhone. Fields were filled and rendered programmatically only.
-- The pages were checked in Chromium (Playwright) only, not Safari or Firefox. All 32 pages loaded cleanly at phone and desktop widths in light and dark mode. Those scripts were throwaway and are not saved in the repository.
+- The pages were checked in Chromium (Playwright) only, not Safari or Firefox. All 36 pages loaded cleanly at phone and desktop widths in light and dark mode. Those scripts were throwaway and are not saved in the repository.
 - The registration examples in the templates (RECI, Safe Electric, RGII, CIRI, Safe Pass) are from memory, not checked against the registers.
+- The scaffolder template covers scaffolding only. Rigging and lifting are separate regulated work and are not included. Its certification wording is deliberately generic.
 - The hours in `planning/simulation-and-costs.md` are estimates. Domain, Stripe and hosting figures come from web search results, and sources disagree on .ie prices.
 - The "send back to" box on page 2 of the brief is empty. Fill it in and save before sharing.
 - The "Website by DayRate" footer link is `#`, and the brief's header and footer say "we" and "DayRate". Both need confirming.
@@ -69,8 +70,9 @@ A set of mobile first landing page templates for tradespeople (eight trades, fou
 1. Fill in the brief's return box and try the PDF on a phone.
 2. Run the electrician simulation in `planning/simulation-and-costs.md`: eight stages, timing each one. It replaces the guessed hours with measured ones.
 3. If building the draft (stage 3) is the slowest, consider a script that reads the returned PDF's form fields into a client file that feeds the build. Decide after measuring.
-4. Review and merge PR #2.
-5. Candidates after that: save a page check script in the repository, add Safari and Firefox checks, draft simple terms and a privacy note, create the `sites/` convention.
+4. Trial with a real rigger or scaffolding specialist, once the simulation has fixed the broken steps. The plan is in section 3 of `planning/simulation-and-costs.md`.
+5. Review and merge PR #2.
+6. Candidates after that: add a `noindex` option for preview pages, save a page check script in the repository, add Safari and Firefox checks, draft simple terms and a privacy note, create the `sites/` convention.
 
 ## Not in scope so far
 

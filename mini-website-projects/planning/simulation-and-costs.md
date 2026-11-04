@@ -113,7 +113,34 @@ The cash cost is small. The hours decide whether this makes money. Each extra su
 - Cloudflare Pages limits: developers.cloudflare.com/pages/platform/limits (limits page only; terms not read in full).
 - Stripe EEA pricing: support.stripe.com, "Pricing updates for businesses based in the EEA" (SEPA figure). Card rate from secondary sources.
 
-## 3. Open questions
+## 3. Real trial, after the simulation
+
+A trial with a real rigger or scaffolding specialist. Run the simulation first. Nobody but you has opened the brief on a phone yet, and its return box is still empty, so a real person would find the broken steps for you.
+
+### Before you start
+
+- Tell them plainly it is a trial: free, what they get, how long it runs (four weeks is a suggestion), and what happens at the end (they keep it at an agreed price, or it comes down). A WhatsApp message is a good enough record.
+- The permission tick in the brief covers using their details and photos. It does not cover publishing a live site or registering a domain. Get a clear yes for each.
+- Ask what they actually do. "Rigger or scaffolder" can mean scaffolding, lifting and rigging, event rigging, or a mix. The scaffolder template covers scaffolding only. Anything else is written from their own description.
+- Ask for proof of every certification and their insurance before it goes on the page. Scaffolding and lifting are safety critical and regulated. No load limits, no compliance claims, nothing they cannot document.
+- Their customers are often builders and contractors, not only householders. Ask who rings them and why, then reword the services and the first screen to suit.
+
+### While it runs
+
+- Keep any preview out of search engines: add `<meta name="robots" content="noindex">` to the page head and share an unlisted link. The templates do not have this yet.
+- Use the same two clocks as the simulation, plus theirs: minutes they spend on the brief, number of messages, number of revision rounds.
+- Do not publish under their business name or point their domain anywhere until they have approved the draft.
+
+### What to learn
+
+- Did the brief make sense on their phone, and how long did it take them?
+- What did they ask for that the template does not offer?
+- Would they pay, how much, and monthly or yearly? Ask "what would you expect to pay?" before you say a price.
+- Would they show it to someone else in the trade?
+
+Suggested measure of success (my thresholds, not measured): draft approved in two rounds or fewer, under about 30 minutes of their time in total, and a price they name that is at or above the break even in section 2.
+
+## 4. Open questions
 
 - Does DayRate already take payments or bill customers? If so, the payment fee line and invoicing time change.
 - Are you doing this alone, and as a sole trader or a company?

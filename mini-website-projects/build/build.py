@@ -21,7 +21,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 OUT = HERE.parent / "templates"
 
-TRADES = ["plumber", "electrician", "carpenter", "painter", "tiler", "landscaper", "roofer", "builder"]
+TRADES = ["plumber", "electrician", "carpenter", "painter", "tiler", "landscaper", "roofer", "builder", "scaffolder"]
 STYLES = ["classic", "bold", "clean", "warm"]
 
 TRADE_KEYS = {"label", "business", "schema_type", "headline", "lead", "meta_services", "trust",
