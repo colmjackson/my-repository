@@ -15,7 +15,7 @@ A set of mobile first landing page templates for tradespeople (nine trades, four
 | Folder | `mini-website-projects/` (the Weekly Money Planner at the repository root is untouched) |
 | Branch | `claude/small-business-sites` (old name kept, because renaming a branch with an open pull request would disrupt it), based on `master` |
 | Pull request | [#2](https://github.com/colmjackson/my-repository/pull/2), open, no reviews, no comments, mergeable. The repository has no CI workflows. |
-| Contents | `templates/` 36 pages and a gallery, `build/` generator and sources, `brief/` the PDF form and its script, `planning/` simulation plan and cost model, `README.md` how to use it all |
+| Contents | `templates/` 36 pages and a gallery, `build/` generator and sources, `brief/` the PDF form and its script, `mockups/` iPhone frame viewer and picture export, `planning/` simulation plan and cost model, `README.md` how to use it all |
 
 ## How it works
 

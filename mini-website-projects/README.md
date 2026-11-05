@@ -11,6 +11,7 @@ Self employed tradespeople and very small firms (plumbers, electricians, joiners
 - `templates/`: the finished pages, one for every trade in every style, at `templates/<trade>/<style>/index.html`. Open `templates/index.html` for a gallery that links to all 36. Each page is one file with no external requests. They use a fictional business (for example "Sample Joinery") so they also work as demos to show prospects.
 - `build/`: the sources and the generator that produces `templates/`. See "Changing the templates".
 - `brief/client-brief.pdf`: a two page fillable form to send to a new client. It collects their name, business, contact details, areas, a short intro, what they want the page to do, the jobs they want more of, which of the four looks they prefer (with a small preview of each), a caption for each of one or two photos, and permission to use their details and photos. `brief/make_brief.py` rebuilds it (`pip install reportlab pypdf`).
+- `mockups/`: `phones.html` shows any template inside iPhone frames (open it in a browser; the comment at the top lists the address options), and `make_mockups.js` exports pictures from it (`npm i playwright`, then `node make_mockups.js`). The pictures are not committed.
 - `planning/`: the simulation plan and the year one cost model.
 - `HANDOFF.md`: where the project stands, decisions made, what is unverified and the next steps. Start here when picking the project up cold.
 
