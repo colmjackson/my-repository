@@ -1,0 +1,25 @@
+{
+  "label": "Tiler",
+  "business": "Sample Tiling",
+  "schema_type": "HomeAndConstructionBusiness",
+  "headline": "Wall and floor tiling, laid straight and finished clean.",
+  "lead": "Bathrooms, kitchens, floors and patios. Call or message for a straight answer and a clear price.",
+  "meta_services": "Bathrooms, kitchens, floors and patios.",
+  "trust": ["Fully insured", "Free quotes", "Clear prices before work starts", "Calls returned the same day"],
+  "services": [
+    ["Bathrooms and wet rooms", "Walls and floors tiled, with the surfaces prepared properly first."],
+    ["Kitchens", "Splashbacks and floors in tile, stone or porcelain."],
+    ["Floors", "Hallways and living areas laid level, including large formats."],
+    ["Patios and outdoor areas", "Porcelain and stone for patios, steps and terraces."],
+    ["Repairs and regrouting", "Cracked tiles replaced and tired grout renewed."],
+    ["Mosaics and feature walls", "Patterns, mosaics and feature panels."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us the area and the tiles you have in mind. Photos help."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished to the timetable we agree, and cleaned up."]
+  ],
+  "credentials_hint": "real qualifications only, for example a tiling apprenticeship or a tile manufacturer's installer approval. Delete the list if none apply.",
+  "trade_note": null,
+  "emergency": null
+}

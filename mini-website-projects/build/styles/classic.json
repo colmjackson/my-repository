@@ -1,0 +1,33 @@
+{
+  "label": "Classic",
+  "blurb": "Navy and amber. Familiar, steady and trustworthy.",
+  "tagline": "Navy and amber",
+  "shape": {
+    "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
+    "h_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
+    "h_weight": "700",
+    "h_transform": "none",
+    "h_tracking": "normal",
+    "h1_size": "clamp(2rem, 7vw, 3.25rem)",
+    "r_card": "12px",
+    "r_btn": "10px",
+    "r_input": "10px",
+    "r_pill": "999px",
+    "bw": "2px"
+  },
+  "light": {
+    "bg": "#f6f7f8", "paper": "#ffffff", "ink": "#111c26", "muted": "#41505c",
+    "line": "#c9d1d6", "edge": "#6b7c88",
+    "brand": "#0f2c44", "brand_ink": "#ffffff",
+    "accent": "#ffb703", "accent_ink": "#1a1200",
+    "link": "#0a58a8", "wa": "#146c3e", "wa_ink": "#ffffff"
+  },
+  "dark": {
+    "bg": "#0b1218", "paper": "#131d26", "ink": "#f1f5f8", "muted": "#b4c1cb",
+    "line": "#35454f", "edge": "#7d909d",
+    "brand": "#0a1f31", "brand_ink": "#ffffff",
+    "accent": "#ffb703", "accent_ink": "#1a1200",
+    "link": "#8ccbff", "wa": "#2bb673", "wa_ink": "#04150c"
+  },
+  "extra_css": []
+}

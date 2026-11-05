@@ -1,0 +1,25 @@
+{
+  "label": "Carpenter and joiner",
+  "business": "Sample Joinery",
+  "schema_type": "HomeAndConstructionBusiness",
+  "headline": "Made to measure woodwork, fitted properly and left tidy.",
+  "lead": "Doors, floors, stairs, fitted units and decking. Call or message for a straight answer and a clear price.",
+  "meta_services": "Doors, floors, fitted units and decking.",
+  "trust": ["Fully insured", "Free quotes", "Clear prices before work starts", "Calls returned the same day"],
+  "services": [
+    ["Doors and windows", "Hung, repaired or replaced, and fitted to close properly."],
+    ["Flooring", "Timber and laminate floors laid, repaired and finished."],
+    ["Fitted wardrobes and storage", "Built to the space, from alcoves to whole rooms."],
+    ["Kitchens", "Units fitted, worktops cut and trim finished."],
+    ["Stairs and banisters", "Repairs, new treads and replacement banisters."],
+    ["Decking and fencing", "Decks, fences and garden structures built to last."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us what you need. Photos and rough measurements help."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Fitted on the day we agree, and cleaned up."]
+  ],
+  "credentials_hint": "real qualifications only, for example your craft apprenticeship certificate or a current Safe Pass. Delete the list if none apply.",
+  "trade_note": null,
+  "emergency": null
+}

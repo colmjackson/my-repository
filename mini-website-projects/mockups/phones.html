@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en-IE">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPhone mockups</title>
+<!--
+  Shows the real template pages inside iPhone frames. Open it in a browser, or change the address:
+    phones.html?pages=electrician/classic,electrician/bold&device=17
+    phones.html?pages=plumber/warm,plumber/warm%23contact      (%23 is #, to scroll to a section)
+    phones.html?device=promax&cols=3&title=My%20title
+  device: 17 (default) or promax. Section anchors: services, h-how, areas, contact.
+  The page area is sized to what Safari shows on each phone. The browser bars are drawn roughly.
+-->
+<style>
+:root { --bg: #d9dde1; --ink: #111c26; --muted: #44525e; --chrome: #f2f2f7; --pill: #e3e3e8; }
+@media (prefers-color-scheme: dark) {
+  :root { --bg: #1a1d20; --ink: #eef1f3; --muted: #aab4bc; --chrome: #1c1c1e; --pill: #2c2c2e; color-scheme: dark; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; padding: 32px; background: var(--bg); color: var(--ink); font: 16px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; }
+header { text-align: center; margin-bottom: 28px; }
+h1 { margin: 0 0 4px; font-size: 26px; }
+header p { margin: 0; color: var(--muted); }
+#row { display: flex; flex-wrap: wrap; gap: 44px 40px; justify-content: center; }
+figure { margin: 0; display: grid; gap: 14px; justify-items: center; }
+figcaption { font-weight: 600; }
+.d17 { --w: 402px; --h: 874px; --vh: 681px; }
+.dmax { --w: 440px; --h: 956px; --vh: 763px; }
+.phone {
+  position: relative; width: calc(var(--w) + 28px); height: calc(var(--h) + 28px); padding: 14px;
+  background: #0b0b0c; border-radius: 64px;
+  box-shadow: inset 0 0 0 2px #4a4a4e, 0 24px 48px rgba(0, 0, 0, .28);
+}
+.screen { position: relative; width: var(--w); height: var(--h); border-radius: 50px; overflow: hidden; background: var(--chrome); }
+.status { position: absolute; top: 0; left: 0; right: 0; height: 62px; color: var(--ink); }
+.time { position: absolute; left: 44px; top: 19px; font-weight: 600; font-size: 17px; }
+.icons { position: absolute; right: 38px; top: 22px; display: flex; gap: 6px; align-items: center; }
+.island { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; border-radius: 20px; background: #000; }
+iframe { position: absolute; top: 62px; left: 0; width: var(--w); height: var(--vh); border: 0; background: #fff; }
+.bar { position: absolute; left: 0; right: 0; top: calc(62px + var(--vh)); bottom: 0; }
+.pill {
+  position: absolute; left: 14px; right: 14px; top: 10px; height: 48px; border-radius: 24px; background: var(--pill);
+  display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; color: var(--ink);
+}
+.pill small { font-size: 12px; font-weight: 700; position: absolute; left: 18px; }
+.home { position: absolute; left: 50%; bottom: 9px; transform: translateX(-50%); width: 138px; height: 5px; border-radius: 3px; background: var(--ink); }
+footer { text-align: center; margin-top: 32px; font-size: 13px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1 id="title">iPhone mockups</h1>
+  <p id="spec"></p>
+</header>
+<div id="row"></div>
+<footer id="note"></footer>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var dev = q.get("device") === "promax" ? "dmax" : "d17";
+  var specs = {
+    d17: { text: "iPhone 17, 17 Pro and 18 Pro size: 402 × 874 points. Page area 402 × 681.", name: "iPhone 17 / 18" },
+    dmax: { text: "iPhone 17 Pro Max and 18 Pro Max size: 440 × 956 points. Page area 440 × 763.", name: "iPhone Pro Max" }
+  };
+  var defaults = ["electrician/classic", "electrician/bold", "electrician/clean", "electrician/warm"];
+  var pages = (q.get("pages") || defaults.join(",")).split(",");
+  var cols = parseInt(q.get("cols") || "0", 10);
+  var sections = { services: "What we do", "h-how": "How it works", areas: "Areas covered", contact: "Get a quote" };
+
+  document.getElementById("title").textContent = q.get("title") || specs[dev].name;
+  document.getElementById("spec").textContent = specs[dev].text;
+  document.getElementById("note").textContent =
+    "Pages are the real templates. The browser bars are drawn roughly, and the page area matches what Safari shows on this size of phone.";
+
+  var row = document.getElementById("row");
+  if (cols > 0) { row.style.display = "grid"; row.style.gridTemplateColumns = "repeat(" + cols + ", max-content)"; }
+
+  var statusIcons =
+    '<svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>' +
+    '<svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x="0.5" y="0.5" width="23" height="12" rx="3.5" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="20" height="9" rx="2.2" fill="currentColor"/><rect x="25" y="4.5" width="2" height="4" rx="1" fill="currentColor" opacity=".45"/></svg>';
+
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+  pages.forEach(function (p) {
+    var hash = p.split("#");
+    var seg = hash[0].split("/");
+    var frag = hash[1] || "";
+    var label = cap(seg[0]) + " · " + cap(seg[1] || "") + (frag ? " · " + (sections[frag] || frag) : "");
+
+    var fig = document.createElement("figure");
+    var phone = document.createElement("div"); phone.className = "phone " + dev;
+    var screen = document.createElement("div"); screen.className = "screen";
+
+    var status = document.createElement("div"); status.className = "status";
+    var time = document.createElement("span"); time.className = "time"; time.textContent = "9:41";
+    var icons = document.createElement("span"); icons.className = "icons"; icons.innerHTML = statusIcons;
+    var island = document.createElement("span"); island.className = "island";
+    status.appendChild(time); status.appendChild(icons); status.appendChild(island);
+
+    var frame = document.createElement("iframe");
+    frame.setAttribute("title", label);
+    frame.setAttribute("src", "../templates/" + hash[0] + "/index.html" + (frag ? "#" + frag : ""));
+
+    var bar = document.createElement("div"); bar.className = "bar";
+    var pill = document.createElement("div"); pill.className = "pill";
+    var aa = document.createElement("small"); aa.textContent = "AA";
+    var domain = document.createElement("span"); domain.textContent = "sample-" + (seg[0] || "site") + ".ie";
+    pill.appendChild(aa); pill.appendChild(domain);
+    var home = document.createElement("div"); home.className = "home";
+    bar.appendChild(pill); bar.appendChild(home);
+
+    screen.appendChild(status); screen.appendChild(frame); screen.appendChild(bar);
+    phone.appendChild(screen);
+    var cp = document.createElement("figcaption"); cp.textContent = label;
+    fig.appendChild(phone); fig.appendChild(cp);
+    row.appendChild(fig);
+  });
+})();
+</script>
+</body>
+</html>

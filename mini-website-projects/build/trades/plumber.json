@@ -1,0 +1,25 @@
+{
+  "label": "Plumber",
+  "business": "Sample Plumbing & Heating",
+  "schema_type": "Plumber",
+  "headline": "Plumbing and heating jobs, done properly and tidied up after.",
+  "lead": "Leaks, boilers, bathrooms and radiators. Call or message for a straight answer and a clear price.",
+  "meta_services": "Leaks, boilers, bathrooms and heating.",
+  "trust": ["Fully insured", "Free quotes", "Clear prices before work starts", "Calls returned the same day"],
+  "services": [
+    ["Leaks and burst pipes", "Found, fixed and checked so it stays fixed."],
+    ["Boiler servicing and repairs", "Yearly services and breakdown repairs."],
+    ["Bathrooms", "Supply and fit, or fit only if you have the suite."],
+    ["Radiators and heating", "New radiators, valves, balancing and bleeding."],
+    ["Hot water", "Immersions, cylinders and pressure problems."],
+    ["Taps, toilets and drains", "Dripping taps, running toilets, slow drains."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us what is wrong. A photo on WhatsApp helps."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished on the day we agree, and cleaned up."]
+  ],
+  "credentials_hint": "real registrations only, for example RGII for gas or RECI for electrical. Delete the list if none apply.",
+  "trade_note": null,
+  "emergency": "Emergency call outs: edit or delete this line depending on whether the business offers them."
+}

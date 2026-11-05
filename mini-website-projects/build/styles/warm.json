@@ -1,0 +1,35 @@
+{
+  "label": "Warm",
+  "blurb": "Cream and forest green with serif headings. Friendly, like a family firm that has been around for years.",
+  "tagline": "Cream and green",
+  "shape": {
+    "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
+    "h_font": "Georgia, \"Times New Roman\", serif",
+    "h_weight": "700",
+    "h_transform": "none",
+    "h_tracking": "normal",
+    "h1_size": "clamp(2rem, 7vw, 3.25rem)",
+    "r_card": "8px",
+    "r_btn": "8px",
+    "r_input": "8px",
+    "r_pill": "999px",
+    "bw": "2px"
+  },
+  "light": {
+    "bg": "#faf5ec", "paper": "#fffdf8", "ink": "#2a211a", "muted": "#5a4a3d",
+    "line": "#e0d3bf", "edge": "#857360",
+    "brand": "#23402f", "brand_ink": "#fbf6ea",
+    "accent": "#f0b35a", "accent_ink": "#2a1c05",
+    "link": "#8a3b12", "wa": "#1d6a3c", "wa_ink": "#ffffff"
+  },
+  "dark": {
+    "bg": "#17120d", "paper": "#211a13", "ink": "#f6eee0", "muted": "#cdbfa9",
+    "line": "#3d3226", "edge": "#8f7d66",
+    "brand": "#12261b", "brand_ink": "#fbf6ea",
+    "accent": "#f0b35a", "accent_ink": "#2a1c05",
+    "link": "#f2b27a", "wa": "#3dbd78", "wa_ink": "#04150c"
+  },
+  "extra_css": [
+    ".top { border-bottom: 6px solid var(--accent); }"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "label": "Builder",
+  "business": "Sample Building",
+  "schema_type": "GeneralContractor",
+  "headline": "Extensions, renovations and building work, from start to finish.",
+  "lead": "Call or message to talk through your plans and get a clear price.",
+  "meta_services": "Extensions, renovations and building work.",
+  "trust": ["Fully insured", "Free quotes", "Written quotes", "Calls returned the same day"],
+  "services": [
+    ["Extensions", "Single and two storey extensions, from plans to finish."],
+    ["Renovations", "Whole house and room by room refurbishment."],
+    ["Attic conversions", "Unused attic space turned into a usable room."],
+    ["Kitchens and bathrooms", "Full refits managed by one team."],
+    ["Garages and outbuildings", "Garage conversions, home offices and garden rooms."],
+    ["Repairs and maintenance", "Walls, plastering, blockwork and the smaller jobs."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us your plans. Drawings or photos help."],
+    ["Get a written price", "A written quote, so you know the cost before work starts."],
+    ["Job done", "Finished to the timetable we agree, and the site left clean."]
+  ],
+  "credentials_hint": "real registrations only, for example CIRI (Construction Industry Register Ireland) and a current Safe Pass. Delete the list if none apply.",
+  "trade_note": "Check what the client can actually do. Extensions and conversions can need planning permission and certification, so do not promise either on their behalf.",
+  "emergency": null
+}

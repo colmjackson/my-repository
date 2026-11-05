@@ -1,0 +1,36 @@
+{
+  "label": "Bold",
+  "blurb": "Black and safety yellow with heavy capitals and square corners. Loud and practical, like a van sign.",
+  "tagline": "Black and yellow",
+  "shape": {
+    "body_font": "system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif",
+    "h_font": "\"Arial Black\", \"Helvetica Neue\", Arial, sans-serif",
+    "h_weight": "900",
+    "h_transform": "uppercase",
+    "h_tracking": ".01em",
+    "h1_size": "clamp(1.75rem, 6.2vw, 2.9rem)",
+    "r_card": "0",
+    "r_btn": "0",
+    "r_input": "0",
+    "r_pill": "0",
+    "bw": "3px"
+  },
+  "light": {
+    "bg": "#f2f2ef", "paper": "#ffffff", "ink": "#0d0d0d", "muted": "#3b3b3b",
+    "line": "#0d0d0d", "edge": "#5c5c58",
+    "brand": "#0d0d0d", "brand_ink": "#ffffff",
+    "accent": "#ffd400", "accent_ink": "#0d0d0d",
+    "link": "#0b3f9e", "wa": "#0f6a30", "wa_ink": "#ffffff"
+  },
+  "dark": {
+    "bg": "#0a0a0a", "paper": "#161616", "ink": "#ffffff", "muted": "#cfcfcf",
+    "line": "#bdbdbd", "edge": "#8c8c8c",
+    "brand": "#000000", "brand_ink": "#ffffff",
+    "accent": "#ffd400", "accent_ink": "#0d0d0d",
+    "link": "#8fb8ff", "wa": "#35c26d", "wa_ink": "#03140a"
+  },
+  "extra_css": [
+    ".top { border-bottom: 8px solid var(--accent); }",
+    ".trust { border-bottom: 3px solid var(--line); }"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "label": "Landscaper and gardener",
+  "business": "Sample Landscaping",
+  "schema_type": "HomeAndConstructionBusiness",
+  "headline": "Gardens designed, built and kept looking good.",
+  "lead": "Patios, lawns, fencing and regular garden care. Call or message for a straight answer and a clear price.",
+  "meta_services": "Patios, lawns, fencing and garden care.",
+  "trust": ["Fully insured", "Free quotes", "Clear prices before work starts", "Calls returned the same day"],
+  "services": [
+    ["Patios and paving", "Laid on a proper base so they stay level."],
+    ["Lawns and turf", "New lawns, turfing and repairs to worn areas."],
+    ["Fencing and gates", "Timber and panel fencing, gates and repairs."],
+    ["Planting and borders", "Beds, hedges and planting to suit the space."],
+    ["Hedge and tree trimming", "Cutting back and shaping, tidied up afterwards."],
+    ["Regular garden care", "Regular visits or a one off tidy up."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us what you have in mind. Photos of the space help."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished to the timetable we agree, and the site left tidy."]
+  ],
+  "credentials_hint": "real qualifications only, for example a horticulture certificate. Delete the list if none apply.",
+  "trade_note": "Only offer rubbish or green waste removal if the business holds the right waste collection permit.",
+  "emergency": null
+}

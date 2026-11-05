@@ -1,0 +1,25 @@
+{
+  "label": "Roofer",
+  "business": "Sample Roofing",
+  "schema_type": "RoofingContractor",
+  "headline": "Roof repairs and new roofs, done safely and tidied up after.",
+  "lead": "Leaks, slates, flat roofs and guttering. Call or message for a straight answer and a clear price.",
+  "meta_services": "Leaks, slates, flat roofs and guttering.",
+  "trust": ["Fully insured", "Free quotes", "Safe working at height", "Calls returned the same day"],
+  "services": [
+    ["Leaks and repairs", "Traced to the source and repaired."],
+    ["Slate and tile roofs", "Missing and slipped slates and tiles replaced."],
+    ["Flat roofs", "Flat roofs fitted or repaired in felt, rubber or fibreglass."],
+    ["Guttering and fascia", "Gutters cleared, repaired or replaced."],
+    ["Chimneys and flashings", "Chimney and lead work sealed against water."],
+    ["Roof inspections", "A look at the roof and photos of any problems found."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us what you can see. A photo from the ground helps."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Finished on the day we agree, and cleaned up."]
+  ],
+  "credentials_hint": "real qualifications only, for example a current Safe Pass. Delete the list if none apply.",
+  "trade_note": null,
+  "emergency": "Storm damage and emergency repairs: edit or delete this line depending on whether the business offers them."
+}

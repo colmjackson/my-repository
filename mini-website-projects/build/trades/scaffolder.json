@@ -1,0 +1,25 @@
+{
+  "label": "Scaffolder",
+  "business": "Sample Scaffolding",
+  "schema_type": "HomeAndConstructionBusiness",
+  "headline": "Scaffolding put up safely, kept solid and taken down clean.",
+  "lead": "Houses, extensions, roofs and building sites. Call or message for a straight answer and a clear price.",
+  "meta_services": "Scaffolding for houses, roofs, extensions and building sites.",
+  "trust": ["Fully insured", "Free quotes", "Trained and certified scaffolders", "Calls returned the same day"],
+  "services": [
+    ["House and extension scaffolding", "Safe access for painting, rendering, roofing and building work."],
+    ["Roof and chimney access", "Scaffolding for slate, tile and flat roof work, chimney repairs and gutters."],
+    ["Commercial and site scaffolding", "For builders and contractors, from small jobs to larger sites."],
+    ["Temporary roofs and weather protection", "Covers that keep the weather off open roofs and work areas."],
+    ["Mobile access towers", "Towers for shorter jobs, inside and out."],
+    ["Alterations and removal", "Changes during the job, and careful dismantling at the end."]
+  ],
+  "steps": [
+    ["Call or message", "Tell us about the job. Photos and rough measurements help."],
+    ["Get a clear price", "You know the cost before any work starts."],
+    ["Job done", "Put up on the day we agree, and taken down when you are finished."]
+  ],
+  "credentials_hint": "real certifications only, for example a current Safe Pass and your scaffolding certification. Delete the list if none apply.",
+  "trade_note": "Scaffolding and lifting are safety critical and regulated. List only services and certifications the business actually holds, and state no load limits or compliance claims. If the client also does rigging or lifting, add it from their own description of the work.",
+  "emergency": null
+}
